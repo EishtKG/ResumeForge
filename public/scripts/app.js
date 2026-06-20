@@ -177,11 +177,8 @@ function handleContentEdit(e) {
 
 // --- Exports ---
 async function handleExportPdf() {
-  els.exportPdf.textContent = 'Exporting...';
-  els.exportPdf.disabled = true;
   try { await exportToPdf(); }
-  catch (err) { console.error('PDF export failed:', err); showError('PDF export failed.'); }
-  finally { els.exportPdf.textContent = 'Export PDF'; els.exportPdf.disabled = false; }
+  catch (err) { console.error('PDF export failed:', err); showError('PDF export failed. Please allow pop-ups.'); }
 }
 
 function handleExportHtml() {

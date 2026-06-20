@@ -1,29 +1,49 @@
 export async function exportToPdf() {
   const el = document.querySelector('.pf-page');
-  if (!el) {
-    console.error('Export PDF: .pf-page not found');
+  if (!el) return;
+
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#171717';
+
+  const styleTag = el.querySelector('style');
+  let themeCSS = styleTag ? styleTag.textContent : '';
+  const content = el.innerHTML.replace(/<style[\s\S]*?<\/style>/, '').trim();
+
+  themeCSS = themeCSS.replace(/@import url\([^)]+\);?\s*/g, '');
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Resume Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --accent-color: ${accent}; }
+body { margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+${themeCSS}
+</style>
+</head>
+<body>
+<div class="pf-page" style="--accent-color: ${accent}; --pf-accent: ${accent}; --pf-accent-hover: ${accent}; --pf-accent-bg: ${accent}14; --pf-accent-bg-subtle: ${accent}0a;">
+${content}
+</div>
+</body>
+</html>`;
+
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    alert('Pop-up blocked. Please allow pop-ups for this site and try again.');
     return;
   }
 
-  const { default: html2pdf } = await import('https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js');
+  printWindow.document.write(html);
+  printWindow.document.close();
 
-  const styleEl = el.querySelector('style');
-  const styles = styleEl ? styleEl.textContent : '';
-
-  const container = document.createElement('div');
-  container.style.cssText = 'position:absolute;left:-9999px;top:0;width:800px;';
-  container.innerHTML = `<style>${styles}</style>${el.innerHTML}`;
-  document.body.appendChild(container);
-
-  const opt = {
-    margin: 0,
-    filename: 'resume-portfolio.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, letterRendering: true, width: 800, windowWidth: 800 },
-    jsPDF: { unit: 'px', format: [800, container.scrollHeight], orientation: 'portrait' },
-    pagebreak: { mode: ['avoid-all'] },
+  printWindow.onload = () => {
+    setTimeout(() => {
+      printWindow.print();
+    }, 500);
   };
-
-  await html2pdf().set(opt).from(container).save();
-  container.remove();
 }

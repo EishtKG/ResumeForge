@@ -1,12 +1,13 @@
 export function exportToHtml(data, theme, accentColor) {
   const el = document.querySelector('.pf-page');
-  if (!el) {
-    console.error('Export HTML: .pf-page not found');
-    return;
-  }
+  if (!el) return;
 
-  const styles = el.querySelector('style')?.textContent || '';
-  const content = el.innerHTML.replace(/<style[\s\S]*?<\/style>/, '');
+  const accent = accentColor || '#171717';
+  const styleTag = el.querySelector('style');
+  let themeCSS = styleTag ? styleTag.textContent : '';
+  const content = el.innerHTML.replace(/<style[\s\S]*?<\/style>/, '').trim();
+
+  themeCSS = themeCSS.replace(/@import url\([^)]+\);?\s*/g, '');
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -17,15 +18,31 @@ export function exportToHtml(data, theme, accentColor) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"><\/script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+      },
+      colors: { accent: '${accent}' }
+    }
+  }
+}
+<\/script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --accent-color: ${accentColor || '#171717'}; }
+:root { --accent-color: ${accent}; }
 body { margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
-${styles}
+${themeCSS}
 </style>
 </head>
 <body>
+<div class="pf-page" style="--accent-color: ${accent}; --pf-accent: ${accent}; --pf-accent-hover: ${accent}; --pf-accent-bg: ${accent}14; --pf-accent-bg-subtle: ${accent}0a;">
 ${content}
+</div>
 </body>
 </html>`;
 
@@ -34,7 +51,9 @@ ${content}
   const a = document.createElement('a');
   a.href = url;
   a.download = 'resume-portfolio.html';
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 

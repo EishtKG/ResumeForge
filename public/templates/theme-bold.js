@@ -136,17 +136,7 @@ function getBoldCSS() {
   return `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
-    .pf-page, .pf-page *, .pf-page *::before, .pf-page *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      font: inherit;
-      color: inherit;
-      background: none;
-      text-decoration: none;
-      list-style: none;
-    }
+    .pf-page, .pf-page * { box-sizing: border-box; margin: 0; padding: 0; }
 
     .pf-page {
       --pf-text: #eaeaea;

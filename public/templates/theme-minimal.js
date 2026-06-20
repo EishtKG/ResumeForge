@@ -135,11 +135,11 @@ export function renderMinimal(data) {
           <h2 class="pf-footer-name">${esc(data.candidateName)}</h2>
           <div class="pf-footer-links">
             ${[
-              data.contact.email && `<a href="mailto:${esc(data.contact.email)}" class="pf-footer-link">Email</a>`,
-              data.contact.linkedin && `<a href="${esc(data.contact.linkedin)}" target="_blank" class="pf-footer-link">LinkedIn</a>`,
-              data.contact.github && `<a href="${esc(data.contact.github)}" target="_blank" class="pf-footer-link">GitHub</a>`,
-              data.contact.website && `<a href="${esc(data.contact.website)}" target="_blank" class="pf-footer-link">Website</a>`,
-            ].filter(Boolean).join('')}
+      data.contact.email && `<a href="mailto:${esc(data.contact.email)}" class="pf-footer-link">Email</a>`,
+      data.contact.linkedin && `<a href="${esc(data.contact.linkedin)}" target="_blank" class="pf-footer-link">LinkedIn</a>`,
+      data.contact.github && `<a href="${esc(data.contact.github)}" target="_blank" class="pf-footer-link">GitHub</a>`,
+      data.contact.website && `<a href="${esc(data.contact.website)}" target="_blank" class="pf-footer-link">Website</a>`,
+    ].filter(Boolean).join('')}
           </div>
           ${data.contact.location ? `<p class="pf-footer-location">${esc(data.contact.location)}</p>` : ''}
         </div>
@@ -152,17 +152,7 @@ function getMinimalCSS() {
   return `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-    .pf-page, .pf-page *, .pf-page *::before, .pf-page *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      font: inherit;
-      color: inherit;
-      background: none;
-      text-decoration: none;
-      list-style: none;
-    }
+    .pf-page, .pf-page * { box-sizing: border-box; margin: 0; padding: 0; }
 
     .pf-page {
       --pf-text: #171717;
@@ -275,4 +265,4 @@ function getMinimalCSS() {
   `;
 }
 
-function esc(str) { return str ? String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;') : ''; }
+function esc(str) { return str ? String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;') : ''; }
