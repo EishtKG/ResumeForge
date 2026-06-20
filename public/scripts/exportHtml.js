@@ -1,9 +1,12 @@
 export function exportToHtml(data, theme, accentColor) {
-  const el = document.querySelector('.portfolio-page');
-  if (!el) return;
+  const el = document.querySelector('.pf-page');
+  if (!el) {
+    console.error('Export HTML: .pf-page not found');
+    return;
+  }
 
   const styles = el.querySelector('style')?.textContent || '';
-  const content = el.innerHTML;
+  const content = el.innerHTML.replace(/<style[\s\S]*?<\/style>/, '');
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -13,19 +16,16 @@ export function exportToHtml(data, theme, accentColor) {
 <title>${esc(data.candidateName)} — ${esc(data.targetRole)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root { --accent-color: ${accentColor || '#171717'}; }
-body { font-family: 'Inter', system-ui, sans-serif; color: #171717; background: #fff; line-height: 1.5; }
-.portfolio-page { max-width: 800px; margin: 0 auto; }
-a { text-decoration: none; }
-[contenteditable] { outline: none; }
+body { margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
 ${styles}
 </style>
 </head>
 <body>
-<div class="portfolio-page">${content}</div>
+${content}
 </body>
 </html>`;
 
