@@ -1,4 +1,4 @@
-import { SYSTEM_PROMPT, buildUserMessage, validateResponse } from './prompt.js';
+import { SYSTEM_PROMPT, buildUserMessage, validateResponse, sanitizeJson } from './prompt.js';
 
 const URL = 'https://api.together.xyz/v1/chat/completions';
 
@@ -38,6 +38,6 @@ export const together = {
     const text = data.choices?.[0]?.message?.content;
     if (!text) throw new Error('Empty response from Together AI');
 
-    return validateResponse(JSON.parse(text));
+    return validateResponse(JSON.parse(sanitizeJson(text)));
   },
 };

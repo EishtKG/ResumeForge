@@ -39,15 +39,15 @@ export function renderMinimal(data) {
           <div class="pf-skills-grid">
             <div class="pf-skill-col">
               <h3 class="pf-skill-heading">Technical Skills</h3>
-              <ul class="pf-skill-list">
-                ${data.skills.technical.map(s => `<li>${esc(s)}</li>`).join('')}
-              </ul>
+              <div class="pf-skill-chips">
+                ${data.skills.technical.map(s => `<span class="pf-skill-chip">${esc(s)}</span>`).join('')}
+              </div>
             </div>
             <div class="pf-skill-col">
               <h3 class="pf-skill-heading">Professional Skills</h3>
-              <ul class="pf-skill-list">
-                ${data.skills.soft.map(s => `<li>${esc(s)}</li>`).join('')}
-              </ul>
+              <div class="pf-skill-chips">
+                ${data.skills.soft.map(s => `<span class="pf-skill-chip">${esc(s)}</span>`).join('')}
+              </div>
             </div>
           </div>
         </div>
@@ -203,12 +203,29 @@ function getMinimalCSS() {
     .pf-section-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--pf-text-4); }
     .pf-section-title { font-size: 20px; font-weight: 600; letter-spacing: -0.5px; }
 
-    /* Skills — Minimal: clean list with hairline dividers, no pills */
+    /* Skills — Minimal: clean chip boxes */
     .pf-skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
     .pf-skill-heading { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--pf-text-4); margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
-    .pf-skill-list { list-style: none; padding: 0; }
-    .pf-skill-list li { padding: 10px 0; font-size: 14px; color: var(--pf-text-2); border-bottom: 1px solid var(--pf-border-2); }
-    .pf-skill-list li:last-child { border-bottom: none; }
+    .pf-skill-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pf-skill-chip {
+      display: inline-block;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--pf-text-2);
+      background: var(--pf-surface);
+      border: 1px solid var(--pf-border);
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+    .pf-skill-chip:hover {
+      transform: translateY(-2px);
+      border-color: var(--pf-accent);
+      color: var(--pf-accent);
+      background: var(--pf-accent-bg-subtle);
+      box-shadow: 0 4px 12px -2px color-mix(in srgb, var(--pf-accent) 10%, transparent);
+    }
 
     /* Experience */
     .pf-exp-list { display: flex; flex-direction: column; gap: 0; }

@@ -1,4 +1,4 @@
-import { SYSTEM_PROMPT, buildUserMessage, validateResponse } from './prompt.js';
+import { SYSTEM_PROMPT, buildUserMessage, validateResponse, sanitizeJson } from './prompt.js';
 
 const URL = 'https://api.groq.com/openai/v1/chat/completions';
 
@@ -38,6 +38,6 @@ export const groq = {
     const text = data.choices?.[0]?.message?.content;
     if (!text) throw new Error('Empty response from Groq');
 
-    return validateResponse(JSON.parse(text));
+    return validateResponse(JSON.parse(sanitizeJson(text)));
   },
 };

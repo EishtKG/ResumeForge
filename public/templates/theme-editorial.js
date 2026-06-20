@@ -34,8 +34,8 @@ export function renderEditorial(data) {
             <div class="pf-col-line"></div>
             <h2 class="pf-col-title">Skills</h2>
           </div>
-          <div class="pf-skill-prose">
-            ${[...data.skills.technical, ...data.skills.soft].map(s => `<span class="pf-skill-word">${esc(s)}</span>`).join('<span class="pf-skill-sep">&bull;</span>')}
+          <div class="pf-skill-chips">
+            ${[...data.skills.technical, ...data.skills.soft].map(s => `<span class="pf-skill-chip">${esc(s)}</span>`).join('')}
           </div>
         </div>
       </section>
@@ -180,10 +180,31 @@ function getEditorialCSS() {
     .pf-col-line { flex: 1; height: 1px; background: var(--pf-border); }
     .pf-col-title { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
 
-    /* Skills — Editorial: single prose block */
-    .pf-skill-prose { font-size: 14px; line-height: 1.8; color: var(--pf-text-2); }
-    .pf-skill-word { display: inline; }
-    .pf-skill-sep { color: var(--pf-text-4); margin: 0 6px; font-size: 10px; }
+    /* Skills — Editorial: glass chip boxes */
+    .pf-skill-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pf-skill-chip {
+      display: inline-block;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--pf-text);
+      background: color-mix(in srgb, var(--pf-surface) 60%, transparent);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid color-mix(in srgb, var(--pf-border) 60%, transparent);
+      border-radius: 8px;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+      letter-spacing: -0.1px;
+    }
+    .pf-skill-chip:hover {
+      transform: translateY(-3px) scale(1.05);
+      background: color-mix(in srgb, var(--pf-surface) 80%, transparent);
+      border-color: var(--pf-accent);
+      color: var(--pf-accent);
+      box-shadow: 0 8px 24px -4px color-mix(in srgb, var(--pf-accent) 15%, transparent),
+                  0 2px 8px -2px color-mix(in srgb, var(--pf-accent) 8%, transparent);
+    }
 
     /* Experience */
     .pf-exp-block { display: flex; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--pf-border-2); }

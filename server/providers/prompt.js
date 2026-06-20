@@ -14,7 +14,8 @@ Respond with ONLY valid JSON matching this schema — no markdown, no code fence
   "education": [{ "institution": "string", "degree": "string", "year": "string" }],
   "projects": [{ "name": "string", "description": "string", "tech": ["string"] }],
   "coverLetter": "string (full text, 3-4 paragraphs)",
-  "contact": { "email": "string", "phone": "string", "location": "string", "linkedin": "string", "github": "string", "website": "string" }
+  "contact": { "email": "string", "phone": "string", "location": "string", "linkedin": "string", "github": "string", "website": "string" },
+  "atsResume": "string (full plain-text resume, ATS-optimized, no fancy formatting — just clean sections: CONTACT, SUMMARY, SKILLS, EXPERIENCE, EDUCATION, PROJECTS)"
 }
 
 
@@ -28,9 +29,11 @@ CRITICAL QUALITY RULES (a generic, safe response is a FAILED response):
 
 4. COVER LETTER — Open with a specific, concrete observation about the role or company (drawn from the JD), not a feeling. Ban "I am writing to express my interest", "I am excited to apply", "I believe I would be a great fit". Paragraph 2 must reference ONE specific requirement from the JD and ONE specific matching detail from the resume — not a general restatement of skills.
 
-5. HONESTY — Never fabricate employers, titles, dates, degrees, or skills not implied by the original resume. If contact fields are missing from the resume, return empty strings.
+5. ATS RESUME — Generate a full plain-text resume optimized for ATS parsing. Use these section headers in ALL CAPS: CONTACT, SUMMARY, SKILLS, EXPERIENCE, EDUCATION, PROJECTS. Use clean formatting: name and contact on separate lines, each job as "Role — Company (Duration)" followed by bullet points. No tables, no columns, no graphics. Every keyword from the matched list must appear naturally in the resume. The atsResume field must be a single string with newlines (\\n) separating sections and lines.
 
-6. TONE CALIBRATION — Match the seniority implied by the resume. A student/intern-level resume should not read like a 10-year veteran's — don't inflate confidence language beyond what the experience supports.`;
+6. HONESTY — Never fabricate employers, titles, dates, degrees, or skills not implied by the original resume. If contact fields are missing from the resume, return empty strings.
+
+7. TONE CALIBRATION — Match the seniority implied by the resume. A student/intern-level resume should not read like a 10-year veteran's — don't inflate confidence language beyond what the experience supports.`;
 
 export function buildUserMessage(resume, jobDescription) {
   return `RAW RESUME:\n---\n${resume}\n---\n\nJOB DESCRIPTION:\n---\n${jobDescription}\n---\n\nReturn the tailored resume as structured JSON.`;
@@ -40,7 +43,7 @@ export function validateResponse(parsed) {
   const required = [
     'candidateName', 'targetRole', 'atsMatchScore', 'matchedKeywords',
     'missingKeywords', 'tailoredSummary', 'skills', 'experience',
-    'education', 'coverLetter', 'contact',
+    'education', 'coverLetter', 'contact', 'atsResume',
   ];
   const missing = required.filter(k => !(k in parsed));
   if (missing.length > 0) {
@@ -57,6 +60,53 @@ export function validateResponse(parsed) {
   }
   if (!parsed.projects) parsed.projects = [];
   if (!parsed.education) parsed.education = [];
+  if (!parsed.atsResume) parsed.atsResume = '';
 
   return parsed;
+}
+
+export function sanitizeJson(text) {
+  let result = '';
+  let inString = false;
+  let escape = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    const code = ch.charCodeAt(0);
+
+    if (escape) {
+      result += ch;
+      escape = false;
+      continue;
+    }
+
+    if (ch === '\\') {
+      result += ch;
+      escape = true;
+      continue;
+    }
+
+    if (ch === '"') {
+      inString = !inString;
+      result += ch;
+      continue;
+    }
+
+    if (inString) {
+      if (code < 32) {
+        if (ch === '\n') result += '\\n';
+        else if (ch === '\r') result += '\\r';
+        else if (ch === '\t') result += '\\t';
+        else if (ch === '\b') result += '\\b';
+        else if (ch === '\f') result += '\\f';
+        else result += `\\u${code.toString(16).padStart(4, '0')}`;
+      } else {
+        result += ch;
+      }
+    } else {
+      result += ch;
+    }
+  }
+
+  return result;
 }

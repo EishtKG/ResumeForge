@@ -189,11 +189,42 @@ function getBoldCSS() {
     .pf-section-inner { max-width: min(1100px, 90vw); margin: 0 auto; padding: 0 40px; }
     .pf-section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-text-4); font-family: 'JetBrains Mono', monospace; margin-bottom: 28px; }
 
-    /* Skills Cloud — Bold: tag-cloud with scaled font-size, colored text only */
+    /* Skills Cloud — Bold: tag-cloud with tilt on hover */
     .pf-cloud { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: baseline; margin-bottom: 20px; }
-    .pf-cloud-item { font-weight: 700; color: var(--pf-accent); letter-spacing: -0.5px; }
+    .pf-cloud-item {
+      font-weight: 700;
+      color: var(--pf-accent);
+      letter-spacing: -0.5px;
+      display: inline-block;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+    }
+    .pf-cloud-item:hover {
+      color: var(--pf-white);
+      text-shadow: 0 0 20px color-mix(in srgb, var(--pf-accent) 60%, transparent);
+      transform: rotate(-3deg) scale(1.1);
+    }
+    .pf-cloud-item:nth-child(even):hover {
+      transform: rotate(3deg) scale(1.1);
+    }
     .pf-soft-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-    .pf-soft-chip { padding: 5px 14px; font-size: 11px; border: 1px solid var(--pf-border-2); border-radius: 100px; color: var(--pf-text-3); font-family: 'JetBrains Mono', monospace; }
+    .pf-soft-chip {
+      padding: 5px 14px;
+      font-size: 11px;
+      border: 1px solid var(--pf-border-2);
+      border-radius: 100px;
+      color: var(--pf-text-3);
+      font-family: 'JetBrains Mono', monospace;
+      display: inline-block;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+    }
+    .pf-soft-chip:hover {
+      color: var(--pf-white);
+      border-color: var(--pf-accent);
+      background: color-mix(in srgb, var(--pf-accent) 20%, transparent);
+      transform: rotate(2deg) scale(1.05);
+    }
 
     /* Experience */
     .pf-exp-grid { display: flex; flex-direction: column; }

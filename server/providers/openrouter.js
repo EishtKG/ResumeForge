@@ -1,4 +1,4 @@
-import { SYSTEM_PROMPT, buildUserMessage, validateResponse } from './prompt.js';
+import { SYSTEM_PROMPT, buildUserMessage, validateResponse, sanitizeJson } from './prompt.js';
 
 const URL = 'https://openrouter.ai/api/v1/chat/completions';
 
@@ -40,6 +40,6 @@ export const openrouter = {
     if (!text) throw new Error('Empty response from OpenRouter');
 
     const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    return validateResponse(JSON.parse(cleaned));
+    return validateResponse(JSON.parse(sanitizeJson(cleaned)));
   },
 };

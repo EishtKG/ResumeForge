@@ -26,7 +26,7 @@ export function renderCoverLetter(data) {
   `;
 }
 
-export function renderAtsReport(data) {
+export function renderAtsResume(data) {
   const matchedTags = (data.matchedKeywords || []).map(k =>
     `<span class="keyword-tag matched">${escHtml(k)}</span>`
   ).join('');
@@ -37,25 +37,63 @@ export function renderAtsReport(data) {
   const scoreColor = data.atsMatchScore >= 70 ? '#16a34a' :
                      data.atsMatchScore >= 40 ? '#f59e0b' : '#dc2626';
 
+  const resumeText = data.atsResume || buildFallbackResume(data);
+
   return `
-    <div class="ats-report">
-      <h2>ATS Compatibility Report</h2>
-      <div class="ats-score-card">
-        <div class="ats-score-value" style="color: ${scoreColor}">${data.atsMatchScore}</div>
-        <div class="ats-score-label">out of 100</div>
+    <div class="ats-resume-page">
+      <div class="ats-report-compact">
+        <div class="ats-score-inline">
+          <span class="ats-score-num" style="color: ${scoreColor}">${data.atsMatchScore}</span>
+          <span class="ats-score-label">ATS Score</span>
+        </div>
+        <div class="ats-keywords-row">
+          <div class="ats-kw-group">
+            <span class="ats-kw-label">Matched</span>
+            <div class="ats-kw-list">${matchedTags || '<span class="ats-kw-empty">None</span>'}</div>
+          </div>
+          <div class="ats-kw-group">
+            <span class="ats-kw-label">Missing</span>
+            <div class="ats-kw-list">${missingTags || '<span class="ats-kw-empty">None</span>'}</div>
+          </div>
+        </div>
       </div>
-
-      <div class="keyword-section">
-        <h3>Matched Keywords (${(data.matchedKeywords || []).length})</h3>
-        <div class="keyword-list">${matchedTags || '<span style="color:var(--mute);font-size:13px">No matched keywords found</span>'}</div>
-      </div>
-
-      <div class="keyword-section">
-        <h3>Missing Keywords (${(data.missingKeywords || []).length})</h3>
-        <div class="keyword-list">${missingTags || '<span style="color:var(--mute);font-size:13px">All keywords matched!</span>'}</div>
-      </div>
+      <div class="ats-resume-divider"></div>
+      <div class="ats-resume-preview" contenteditable="true" data-field="atsResume">${escHtml(resumeText)}</div>
     </div>
   `;
+}
+
+function buildFallbackResume(data) {
+  let r = '';
+  r += (data.candidateName || 'Candidate Name').toUpperCase() + '\n';
+  const contact = data.contact || {};
+  const contactParts = [contact.email, contact.phone, contact.location, contact.linkedin, contact.github].filter(Boolean);
+  if (contactParts.length) r += contactParts.join(' | ') + '\n';
+  r += '\nSUMMARY\n' + (data.tailoredSummary || '') + '\n';
+  if (data.skills?.technical?.length) r += '\nSKILLS\n' + data.skills.technical.join(', ') + '\n';
+  if (data.skills?.soft?.length) r += data.skills.soft.join(', ') + '\n';
+  if (data.experience?.length) {
+    r += '\nEXPERIENCE\n';
+    data.experience.forEach(exp => {
+      r += `${exp.role} — ${exp.company} (${exp.duration})\n`;
+      (exp.bullets || []).forEach(b => { r += `• ${b}\n`; });
+      r += '\n';
+    });
+  }
+  if (data.education?.length) {
+    r += '\nEDUCATION\n';
+    data.education.forEach(edu => {
+      r += `${edu.degree} — ${edu.institution} (${edu.year})\n`;
+    });
+  }
+  if (data.projects?.length) {
+    r += '\nPROJECTS\n';
+    data.projects.forEach(p => {
+      r += `${p.name}: ${p.description}\n`;
+      if (p.tech?.length) r += `Tech: ${p.tech.join(', ')}\n`;
+    });
+  }
+  return r;
 }
 
 function escHtml(str) {

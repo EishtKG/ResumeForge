@@ -1,4 +1,4 @@
-import { SYSTEM_PROMPT, buildUserMessage, validateResponse } from './prompt.js';
+import { SYSTEM_PROMPT, buildUserMessage, validateResponse, sanitizeJson } from './prompt.js';
 
 const URL = 'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}';
 
@@ -32,9 +32,10 @@ export const gemini = {
             education: { type: 'array', items: { type: 'object', properties: { institution: { type: 'string' }, degree: { type: 'string' }, year: { type: 'string' } } } },
             projects: { type: 'array', items: { type: 'object', properties: { name: { type: 'string' }, description: { type: 'string' }, tech: { type: 'array', items: { type: 'string' } } } } },
             coverLetter: { type: 'string' },
+            atsResume: { type: 'string' },
             contact: { type: 'object', properties: { email: { type: 'string' }, phone: { type: 'string' }, location: { type: 'string' }, linkedin: { type: 'string' }, github: { type: 'string' }, website: { type: 'string' } } },
           },
-          required: ['candidateName', 'targetRole', 'atsMatchScore', 'matchedKeywords', 'missingKeywords', 'tailoredSummary', 'skills', 'experience', 'education', 'coverLetter', 'contact'],
+          required: ['candidateName', 'targetRole', 'atsMatchScore', 'matchedKeywords', 'missingKeywords', 'tailoredSummary', 'skills', 'experience', 'education', 'coverLetter', 'contact', 'atsResume'],
         },
       },
     };
@@ -54,6 +55,6 @@ export const gemini = {
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!text) throw new Error('Empty response from Gemini');
 
-    return validateResponse(JSON.parse(text));
+    return validateResponse(JSON.parse(sanitizeJson(text)));
   },
 };

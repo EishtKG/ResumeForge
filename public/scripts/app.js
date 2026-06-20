@@ -1,6 +1,6 @@
 import { tailorResume } from './api.js';
-import { renderPortfolio, renderCoverLetter, renderAtsReport } from './renderPreview.js';
-import { exportToPdf } from './exportPdf.js';
+import { renderPortfolio, renderCoverLetter, renderAtsResume } from './renderPreview.js';
+import { exportToPdf, exportCoverLetterToPdf, exportAtsResumeToPdf } from './exportPdf.js';
 import { exportToHtml } from './exportHtml.js';
 
 // --- State ---
@@ -24,12 +24,11 @@ const els = {
   darkModeToggle: document.getElementById('darkModeToggle'),
   previewContent: document.getElementById('previewContent'),
   previewToolbar: document.getElementById('previewToolbar'),
+  toolbarActions: document.getElementById('toolbarActions'),
   emptyState: document.getElementById('emptyState'),
   portfolioTab: document.getElementById('portfolioTab'),
   coverLetterTab: document.getElementById('coverLetterTab'),
-  atsReportTab: document.getElementById('atsReportTab'),
-  exportPdf: document.getElementById('exportPdf'),
-  exportHtml: document.getElementById('exportHtml'),
+  atsResumeTab: document.getElementById('atsResumeTab'),
 };
 
 // --- Init ---
@@ -38,10 +37,7 @@ function init() {
   els.themePicker.addEventListener('click', handleThemeChange);
   els.accentColor.addEventListener('input', handleColorChange);
   els.darkModeToggle.addEventListener('click', toggleDarkMode);
-  els.exportPdf.addEventListener('click', handleExportPdf);
-  els.exportHtml.addEventListener('click', handleExportHtml);
 
-  // Restore dark mode from session
   if (sessionStorage.getItem('rf_dark') === 'true') {
     document.body.classList.add('dark');
   }
@@ -52,7 +48,6 @@ function init() {
 
   els.previewContent.addEventListener('input', handleContentEdit);
 
-  // Keyboard shortcuts
   els.resumeInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
@@ -65,6 +60,8 @@ function init() {
       handleGenerate();
     }
   });
+
+  updateToolbarForTab('portfolio');
 }
 
 // --- Generate ---
@@ -104,7 +101,7 @@ function renderAll() {
   els.previewToolbar.style.display = 'flex';
   renderPortfolioTab();
   renderCoverLetterTab();
-  renderAtsTab();
+  renderAtsResumeTab();
 }
 
 function renderPortfolioTab() {
@@ -115,8 +112,8 @@ function renderCoverLetterTab() {
   els.coverLetterTab.innerHTML = renderCoverLetter(state.data);
 }
 
-function renderAtsTab() {
-  els.atsReportTab.innerHTML = renderAtsReport(state.data);
+function renderAtsResumeTab() {
+  els.atsResumeTab.innerHTML = renderAtsResume(state.data);
 }
 
 // --- Theme ---
@@ -129,7 +126,7 @@ function handleThemeChange(e) {
   if (state.data) {
     renderPortfolioTab();
     renderCoverLetterTab();
-    renderAtsTab();
+    renderAtsResumeTab();
   }
 }
 
@@ -150,8 +147,27 @@ function switchTab(tab) {
   state.activeTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
   document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-  const tabIdMap = { 'portfolio': 'portfolioTab', 'cover-letter': 'coverLetterTab', 'ats-report': 'atsReportTab' };
+  const tabIdMap = { 'portfolio': 'portfolioTab', 'cover-letter': 'coverLetterTab', 'ats-resume': 'atsResumeTab' };
   document.getElementById(tabIdMap[tab]).classList.add('active');
+  updateToolbarForTab(tab);
+}
+
+function updateToolbarForTab(tab) {
+  els.toolbarActions.innerHTML = '';
+
+  if (tab === 'portfolio') {
+    const btnHtml = `<button class="btn-export btn-export-secondary" id="exportHtml">Export HTML</button>
+                     <button class="btn-export" id="exportPdf">Export PDF</button>`;
+    els.toolbarActions.innerHTML = btnHtml;
+    document.getElementById('exportHtml').addEventListener('click', handleExportHtml);
+    document.getElementById('exportPdf').addEventListener('click', handleExportPdf);
+  } else if (tab === 'cover-letter') {
+    els.toolbarActions.innerHTML = `<button class="btn-export" id="exportCoverPdf">Export PDF</button>`;
+    document.getElementById('exportCoverPdf').addEventListener('click', handleExportCoverPdf);
+  } else if (tab === 'ats-resume') {
+    els.toolbarActions.innerHTML = `<button class="btn-export" id="exportResumePdf">Export PDF</button>`;
+    document.getElementById('exportResumePdf').addEventListener('click', handleExportResumePdf);
+  }
 }
 
 // --- Inline Editing ---
@@ -172,6 +188,8 @@ function handleContentEdit(e) {
     });
   } else if (field === 'coverLetter') {
     state.data.coverLetter = newText;
+  } else if (field === 'atsResume') {
+    state.data.atsResume = newText;
   }
 }
 
@@ -184,6 +202,16 @@ async function handleExportPdf() {
 function handleExportHtml() {
   if (!state.data) return;
   exportToHtml(state.data, state.theme, state.accentColor);
+}
+
+async function handleExportCoverPdf() {
+  try { await exportCoverLetterToPdf(state.data); }
+  catch (err) { console.error('Cover letter PDF failed:', err); showError('Cover letter export failed. Please allow pop-ups.'); }
+}
+
+async function handleExportResumePdf() {
+  try { await exportAtsResumeToPdf(state.data); }
+  catch (err) { console.error('Resume PDF failed:', err); showError('Resume export failed. Please allow pop-ups.'); }
 }
 
 // --- UI Helpers ---
