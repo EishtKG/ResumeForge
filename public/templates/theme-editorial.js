@@ -15,12 +15,7 @@ export function renderEditorial(data, accentColor) {
       <header class="pf-hero">
         <div class="pf-hero-container">
           <h1 class="pf-hero-name">${esc(data.candidateName)}</h1>
-          <div class="pf-hero-meta">
-            <div class="pf-hero-score">
-              <div class="pf-score-bar"><div class="pf-score-fill" style="width:${data.atsMatchScore}%"></div></div>
-              <span class="pf-score-text">${data.atsMatchScore}% ATS Match</span>
-            </div>
-          </div>
+          <p class="pf-hero-role">${esc(data.targetRole)}</p>
         </div>
       </header>
 
@@ -155,12 +150,8 @@ function getEditorialCSS(accent) {
     /* Hero */
     .pf-hero { padding: 64px 40px 48px; border-bottom: 1px solid #e8e5df; }
     .pf-hero-container { max-width: 700px; }
-    .pf-hero-name { font-size: 56px; font-weight: 700; letter-spacing: -3px; line-height: 1; margin-bottom: 20px; }
-    .pf-hero-meta { display: flex; align-items: center; gap: 24px; }
-    .pf-hero-score { display: flex; align-items: center; gap: 12px; }
-    .pf-score-bar { width: 120px; height: 3px; background: #e8e5df; border-radius: 2px; overflow: hidden; }
-    .pf-score-fill { height: 100%; background: ${accent}; border-radius: 2px; }
-    .pf-score-text { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: #999; }
+    .pf-hero-name { font-size: 56px; font-weight: 700; letter-spacing: -3px; line-height: 1; margin-bottom: 8px; }
+    .pf-hero-role { font-size: 16px; color: #666; font-weight: 400; }
 
     /* Lead / Pullquote */
     .pf-lead { padding: 40px; background: #f5f3ef; border-bottom: 1px solid #e8e5df; }

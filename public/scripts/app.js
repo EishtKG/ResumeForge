@@ -21,6 +21,7 @@ const els = {
   progressSteps: document.getElementById('progressSteps'),
   themePicker: document.getElementById('themePicker'),
   accentColor: document.getElementById('accentColor'),
+  darkModeToggle: document.getElementById('darkModeToggle'),
   previewContent: document.getElementById('previewContent'),
   previewToolbar: document.getElementById('previewToolbar'),
   emptyState: document.getElementById('emptyState'),
@@ -36,8 +37,14 @@ function init() {
   els.generateBtn.addEventListener('click', handleGenerate);
   els.themePicker.addEventListener('click', handleThemeChange);
   els.accentColor.addEventListener('input', handleColorChange);
+  els.darkModeToggle.addEventListener('click', toggleDarkMode);
   els.exportPdf.addEventListener('click', handleExportPdf);
   els.exportHtml.addEventListener('click', handleExportHtml);
+
+  // Restore dark mode from session
+  if (sessionStorage.getItem('rf_dark') === 'true') {
+    document.body.classList.add('dark');
+  }
 
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => switchTab(tab.dataset.tab));
@@ -130,6 +137,12 @@ function handleThemeChange(e) {
 function handleColorChange(e) {
   state.accentColor = e.target.value;
   if (state.data) renderPortfolioTab();
+}
+
+// --- Dark Mode ---
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+  sessionStorage.setItem('rf_dark', document.body.classList.contains('dark'));
 }
 
 // --- Tabs ---

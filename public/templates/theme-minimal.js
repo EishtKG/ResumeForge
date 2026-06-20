@@ -29,20 +29,6 @@ export function renderMinimal(data, accentColor) {
             <a href="#experience" class="pf-btn pf-btn-ghost">View work</a>
           </div>
         </div>
-        <div class="pf-hero-score">
-          <div class="pf-score-ring">
-            <svg viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="54" fill="none" stroke="#f0f0f0" stroke-width="4"/>
-              <circle cx="60" cy="60" r="54" fill="none" stroke="${accent}" stroke-width="4"
-                stroke-dasharray="${2 * Math.PI * 54}" stroke-dashoffset="${2 * Math.PI * 54 * (1 - data.atsMatchScore / 100)}"
-                transform="rotate(-90 60 60)" stroke-linecap="round"/>
-            </svg>
-            <div class="pf-score-inner">
-              <span class="pf-score-num">${data.atsMatchScore}</span>
-              <span class="pf-score-label">ATS Match</span>
-            </div>
-          </div>
-        </div>
       </header>
 
       <section class="pf-section pf-skills-section" id="skills">
@@ -193,14 +179,6 @@ function getMinimalCSS(accent) {
     .pf-btn-primary:hover { opacity: 0.9; }
     .pf-btn-ghost { border: 1px solid #e0e0e0; color: #171717; background: transparent; }
     .pf-btn-ghost:hover { border-color: #171717; }
-
-    /* Score */
-    .pf-hero-score { flex-shrink: 0; }
-    .pf-score-ring { width: 100px; height: 100px; position: relative; }
-    .pf-score-ring svg { width: 100%; height: 100%; }
-    .pf-score-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .pf-score-num { font-size: 28px; font-weight: 700; letter-spacing: -1px; }
-    .pf-score-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: #888; font-family: 'JetBrains Mono', monospace; }
 
     /* Sections */
     .pf-section { padding: 60px 0; border-top: 1px solid #f0f0f0; }

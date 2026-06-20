@@ -26,12 +26,6 @@ export function renderBold(data, accentColor) {
           <p class="pf-hero-role">${esc(data.targetRole)}</p>
           <p class="pf-hero-summary">${esc(data.tailoredSummary)}</p>
           <div class="pf-hero-bottom">
-            <div class="pf-score-badge">
-              <span class="pf-score-num">${data.atsMatchScore}</span>
-              <span class="pf-score-divider">/</span>
-              <span class="pf-score-total">100</span>
-              <span class="pf-score-tag">ATS</span>
-            </div>
             <div class="pf-hero-links">
               ${data.contact.email ? `<a href="mailto:${esc(data.contact.email)}" class="pf-link-item">Email</a>` : ''}
               ${data.contact.linkedin ? `<a href="${esc(data.contact.linkedin)}" target="_blank" class="pf-link-item">LinkedIn</a>` : ''}
@@ -163,11 +157,6 @@ function getBoldCSS(accent) {
     .pf-hero-role { font-size: 18px; color: #888; font-weight: 400; margin-bottom: 16px; }
     .pf-hero-summary { font-size: 15px; color: #999; line-height: 1.7; max-width: 550px; margin-bottom: 32px; }
     .pf-hero-bottom { display: flex; align-items: center; gap: 32px; }
-    .pf-score-badge { display: flex; align-items: baseline; gap: 2px; background: ${accent}; padding: 10px 20px; border-radius: 100px; }
-    .pf-score-num { font-size: 28px; font-weight: 700; color: #fff; }
-    .pf-score-divider { font-size: 18px; color: rgba(255,255,255,0.3); }
-    .pf-score-total { font-size: 16px; color: rgba(255,255,255,0.3); }
-    .pf-score-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); margin-left: 6px; font-family: 'JetBrains Mono', monospace; }
     .pf-hero-links { display: flex; gap: 16px; }
     .pf-link-item { font-size: 13px; color: #666; text-decoration: none; transition: color 0.15s; }
     .pf-link-item:hover { color: ${accent}; }
