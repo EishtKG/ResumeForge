@@ -32,21 +32,10 @@ export function renderEditorial(data) {
           <div class="pf-col-header">
             <span class="pf-col-num">I</span>
             <div class="pf-col-line"></div>
-            <h2 class="pf-col-title">Expertise</h2>
+            <h2 class="pf-col-title">Skills</h2>
           </div>
-          <div class="pf-skills-columns">
-            <div class="pf-skill-col">
-              <h3 class="pf-skill-heading"><span class="pf-skill-num">1.</span> Technical</h3>
-              <div class="pf-skill-prose">
-                ${data.skills.technical.map(s => `<span class="pf-skill-word">${esc(s)}</span>`).join('<span class="pf-skill-sep">&bull;</span>')}
-              </div>
-            </div>
-            <div class="pf-skill-col">
-              <h3 class="pf-skill-heading"><span class="pf-skill-num">2.</span> Professional</h3>
-              <div class="pf-skill-prose">
-                ${data.skills.soft.map(s => `<span class="pf-skill-word">${esc(s)}</span>`).join('<span class="pf-skill-sep">&bull;</span>')}
-              </div>
-            </div>
+          <div class="pf-skill-prose">
+            ${[...data.skills.technical, ...data.skills.soft].map(s => `<span class="pf-skill-word">${esc(s)}</span>`).join('<span class="pf-skill-sep">&bull;</span>')}
           </div>
         </div>
       </section>
@@ -191,10 +180,7 @@ function getEditorialCSS() {
     .pf-col-line { flex: 1; height: 1px; background: var(--pf-border); }
     .pf-col-title { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
 
-    /* Skills — Editorial: numbered subheads in prose blocks */
-    .pf-skills-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-    .pf-skill-heading { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--pf-text); }
-    .pf-skill-num { font-family: Georgia, serif; color: var(--pf-accent); opacity: 0.3; margin-right: 4px; }
+    /* Skills — Editorial: single prose block */
     .pf-skill-prose { font-size: 14px; line-height: 1.8; color: var(--pf-text-2); }
     .pf-skill-word { display: inline; }
     .pf-skill-sep { color: var(--pf-text-4); margin: 0 6px; font-size: 10px; }

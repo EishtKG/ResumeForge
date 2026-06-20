@@ -62,16 +62,11 @@ export function renderMinimal(data) {
           <div class="pf-exp-list">
             ${data.experience.map((exp, i) => `
               <article class="pf-exp-card">
-                <div class="pf-exp-left">
-                  <span class="pf-exp-num">${String(i + 1).padStart(2, '0')}</span>
-                  <div class="pf-exp-line"></div>
-                </div>
                 <div class="pf-exp-content">
-                  <div class="pf-exp-top">
-                    <div>
-                      <h3 class="pf-exp-role">${esc(exp.role)}</h3>
-                      <p class="pf-exp-company">${esc(exp.company)}</p>
-                    </div>
+                  <h3 class="pf-exp-role">${esc(exp.role)}</h3>
+                  <div class="pf-exp-meta">
+                    <span class="pf-exp-company">${esc(exp.company)}</span>
+                    <span class="pf-exp-dot">&middot;</span>
                     <span class="pf-exp-duration">${esc(exp.duration)}</span>
                   </div>
                   <ul class="pf-exp-bullets">
@@ -217,16 +212,14 @@ function getMinimalCSS() {
 
     /* Experience */
     .pf-exp-list { display: flex; flex-direction: column; gap: 0; }
-    .pf-exp-card { display: flex; gap: 20px; padding: 28px 0; border-bottom: 1px solid var(--pf-border-2); }
+    .pf-exp-card { padding: 24px 0; border-bottom: 1px solid var(--pf-border-2); }
     .pf-exp-card:last-child { border-bottom: none; }
-    .pf-exp-left { display: flex; flex-direction: column; align-items: center; padding-top: 4px; }
-    .pf-exp-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--pf-text-4); }
-    .pf-exp-line { width: 1px; flex: 1; background: var(--pf-border); margin-top: 8px; }
-    .pf-exp-content { flex: 1; }
-    .pf-exp-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-    .pf-exp-role { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
+    .pf-exp-content { }
+    .pf-exp-role { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 6px; }
+    .pf-exp-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
     .pf-exp-company { font-size: 14px; color: var(--pf-text-3); }
-    .pf-exp-duration { font-size: 12px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+    .pf-exp-dot { color: var(--pf-text-4); }
+    .pf-exp-duration { font-size: 12px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; }
     .pf-exp-bullets { list-style: none; padding: 0; }
     .pf-exp-bullets li { position: relative; padding-left: 16px; font-size: 14px; color: var(--pf-text-2); line-height: 1.7; margin-bottom: 6px; }
     .pf-exp-bullets li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 1px; background: var(--pf-accent); }

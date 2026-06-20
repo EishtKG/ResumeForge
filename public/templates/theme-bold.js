@@ -40,7 +40,7 @@ export function renderBold(data) {
           <div class="pf-cloud">
             ${data.skills.technical.map((s, i) => {
               const sz = [28, 18, 32, 16, 24, 20, 26, 15, 22, 30][i % 10];
-              return `<span class="pf-cloud-item" style="font-size:${sz}px;--op:${(0.4 + (i%5)*0.12).toFixed(2)}">${esc(s)}</span>`;
+              return `<span class="pf-cloud-item" style="font-size:${sz}px">${esc(s)}</span>`;
             }).join('')}
           </div>
           ${data.skills.soft.length > 0 ? `
@@ -150,7 +150,7 @@ function getBoldCSS() {
       --pf-border: #1a1a1a;
       --pf-border-2: #222222;
       --pf-accent: var(--accent-color, #50e3c2);
-      --pf-accent-hover: color-mix(in srgb, var(--pf-accent) 85%, white);
+      --pf-accent-hover: color-mix(in srgb, var(--pf-accent) 90%, white);
       --pf-accent-bg: color-mix(in srgb, var(--pf-accent) 12%, transparent);
       --pf-accent-bg-subtle: color-mix(in srgb, var(--pf-accent) 6%, transparent);
       --pf-accent-border: color-mix(in srgb, var(--pf-accent) 25%, transparent);
@@ -191,7 +191,7 @@ function getBoldCSS() {
 
     /* Skills Cloud — Bold: tag-cloud with scaled font-size, colored text only */
     .pf-cloud { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: baseline; margin-bottom: 20px; }
-    .pf-cloud-item { font-weight: 700; color: var(--pf-accent); opacity: var(--op, 0.6); letter-spacing: -0.5px; }
+    .pf-cloud-item { font-weight: 700; color: var(--pf-accent); letter-spacing: -0.5px; }
     .pf-soft-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
     .pf-soft-chip { padding: 5px 14px; font-size: 11px; border: 1px solid var(--pf-border-2); border-radius: 100px; color: var(--pf-text-3); font-family: 'JetBrains Mono', monospace; }
 
@@ -200,7 +200,7 @@ function getBoldCSS() {
     .pf-exp-row { display: flex; gap: 20px; padding: 28px 0; border-bottom: 1px solid var(--pf-border); }
     .pf-exp-row:last-child { border-bottom: none; }
     .pf-exp-marker { display: flex; flex-direction: column; align-items: center; min-width: 40px; }
-    .pf-exp-num { font-size: 28px; font-weight: 300; color: var(--pf-accent); opacity: 0.15; font-family: 'JetBrains Mono', monospace; }
+    .pf-exp-num { font-size: 28px; font-weight: 300; color: var(--pf-accent); opacity: 0.3; font-family: 'JetBrains Mono', monospace; }
     .pf-exp-content { flex: 1; }
     .pf-exp-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
     .pf-exp-role { font-size: 16px; font-weight: 600; color: var(--pf-white); letter-spacing: -0.2px; }
