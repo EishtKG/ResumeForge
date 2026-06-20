@@ -4,9 +4,27 @@ import cors from 'cors';
 import { initProvider, tailorResume } from './providers/index.js';
 
 const app = express();
-const PORT = 3001;
 
-app.use(cors());
+const ALLOWED_ORIGINS = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:3001',
+];
+
+if (process.env.VERCEL) {
+  ALLOWED_ORIGINS.push(`https://${process.env.VERCEL_URL}`);
+}
+
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS blocked for ${origin}`));
+    }
+  },
+}));
+
 app.use(express.json({ limit: '1mb' }));
 
 const provider = initProvider();
@@ -31,6 +49,11 @@ app.post('/api/tailor', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`ResumeForge server running on http://localhost:${PORT}`);
-});
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`ResumeForge server running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;

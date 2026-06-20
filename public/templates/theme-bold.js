@@ -229,7 +229,7 @@ function getBoldCSS() {
       border-radius: 8px;
       background: var(--pf-surface-2);
       overflow: hidden;
-      transition: all 0.35s ease;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     .pf-proj-card::before {
       content: '';
@@ -248,6 +248,10 @@ function getBoldCSS() {
     .pf-proj-card:hover {
       border-color: color-mix(in srgb, var(--pf-accent) 40%, transparent);
       box-shadow: 0 0 30px -8px color-mix(in srgb, var(--pf-accent) 15%, transparent), inset 0 1px 0 color-mix(in srgb, var(--pf-accent) 10%, transparent);
+      transform: rotate(-1.5deg) scale(1.02);
+    }
+    .pf-proj-card:nth-child(even):hover {
+      transform: rotate(1.5deg) scale(1.02);
     }
     .pf-proj-card:hover::before { opacity: 1; }
     .pf-proj-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
