@@ -2,8 +2,21 @@ import { groq } from './groq.js';
 import { openrouter } from './openrouter.js';
 import { gemini } from './gemini.js';
 import { together } from './together.js';
+import { claude } from './claude.js';
+import { openai } from './openai.js';
+import { grok } from './grok.js';
+import { nvidia } from './nvidia.js';
 
-const providers = { groq, openrouter, gemini, together };
+// ──────────────────────────────────────────────
+//  To add a new provider:
+//  1. Create server/providers/yourprovider.js
+//     - Export an object with: name, envKey, models, call()
+//     - Import SYSTEM_PROMPT, buildUserMessage, validateResponse from ./prompt.js
+//  2. Import it below and add to the providers object
+//  3. Add the env key to .env
+// ──────────────────────────────────────────────
+
+const providers = { groq, openrouter, gemini, together, claude, openai, grok, nvidia };
 
 let activeProvider = null;
 let apiKey = '';
