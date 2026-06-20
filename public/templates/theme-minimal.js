@@ -200,7 +200,7 @@ function getMinimalCSS() {
     /* Sections */
     .pf-section { padding: 60px 0; border-top: 1px solid var(--pf-border); }
     .pf-section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
-    .pf-section-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--pf-text-4); }
+    .pf-section-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--pf-accent); background: var(--pf-accent-bg-subtle); padding: 2px 8px; border-radius: 4px; font-weight: 500; }
     .pf-section-title { font-size: 20px; font-weight: 600; letter-spacing: -0.5px; }
 
     /* Skills — Minimal: clean chip boxes */
@@ -243,12 +243,34 @@ function getMinimalCSS() {
 
     /* Projects */
     .pf-projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .pf-project-card { padding: 24px; border: 1px solid var(--pf-border); border-radius: 12px; transition: border-color 0.15s, box-shadow 0.15s; }
-    .pf-project-card:hover { border-color: color-mix(in srgb, var(--pf-border) 60%, var(--pf-text-4)); box-shadow: var(--pf-shadow-sm); }
+    .pf-project-card {
+      padding: 24px;
+      border: 1px solid var(--pf-border);
+      border-radius: 12px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .pf-project-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 24px;
+      right: 24px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--pf-accent), transparent);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .pf-project-card:hover {
+      border-color: color-mix(in srgb, var(--pf-accent) 25%, var(--pf-border));
+      box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--pf-accent) 8%, transparent);
+    }
+    .pf-project-card:hover::after { opacity: 0.6; }
     .pf-project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-    .pf-project-header svg { color: var(--pf-text-4); flex-shrink: 0; }
+    .pf-project-header svg { color: var(--pf-accent); opacity: 0.4; flex-shrink: 0; }
     .pf-project-tech { display: flex; flex-wrap: wrap; gap: 4px; }
-    .pf-tech { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--pf-text-4); background: var(--pf-surface-3); padding: 2px 8px; border-radius: 4px; }
+    .pf-tech { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--pf-text-4); background: var(--pf-surface-3); padding: 2px 8px; border-radius: 4px; transition: color 0.15s, background 0.15s; }
+    .pf-project-card:hover .pf-tech { color: var(--pf-accent); background: var(--pf-accent-bg-subtle); }
     .pf-project-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.2px; }
     .pf-project-desc { font-size: 13px; color: var(--pf-text-3); line-height: 1.6; }
 
@@ -260,8 +282,9 @@ function getMinimalCSS() {
     .pf-edu-year { font-size: 12px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; }
 
     /* Footer */
-    .pf-footer { padding: 80px 0; text-align: center; border-top: 1px solid var(--pf-border); }
-    .pf-footer-cta { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-text-5); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; }
+    .pf-footer { padding: 80px 0; text-align: center; border-top: 1px solid var(--pf-border); position: relative; }
+    .pf-footer::before { content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--pf-accent); }
+    .pf-footer-cta { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-accent); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; }
     .pf-footer-name { font-size: 36px; font-weight: 700; letter-spacing: -1.5px; margin-bottom: 20px; }
     .pf-footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 12px; }
     .pf-footer-link { font-size: 14px; color: var(--pf-text-3); text-decoration: none; transition: color 0.15s; }

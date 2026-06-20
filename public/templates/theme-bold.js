@@ -38,16 +38,12 @@ export function renderBold(data) {
         <div class="pf-section-inner">
           <div class="pf-section-label">Expertise</div>
           <div class="pf-cloud">
-            ${data.skills.technical.map((s, i) => {
-              const sz = [28, 18, 32, 16, 24, 20, 26, 15, 22, 30][i % 10];
+            ${[...data.skills.technical, ...data.skills.soft].map((s, i) => {
+              const allSizes = [28, 18, 32, 16, 24, 20, 26, 15, 22, 30];
+              const sz = allSizes[i % allSizes.length];
               return `<span class="pf-cloud-item" style="font-size:${sz}px">${esc(s)}</span>`;
             }).join('')}
           </div>
-          ${data.skills.soft.length > 0 ? `
-            <div class="pf-soft-row">
-              ${data.skills.soft.map(s => `<span class="pf-soft-chip">${esc(s)}</span>`).join('')}
-            </div>
-          ` : ''}
         </div>
       </section>
 
@@ -165,7 +161,7 @@ function getBoldCSS() {
     .pf-nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; position: sticky; top: 0; background: color-mix(in srgb, var(--pf-surface) 90%, transparent); backdrop-filter: blur(12px); z-index: 100; border-bottom: 1px solid var(--pf-border); }
     .pf-nav-brand { font-size: 16px; font-weight: 700; letter-spacing: -0.5px; color: var(--pf-white); }
     .pf-nav-cta { font-size: 13px; color: var(--pf-accent); text-decoration: none; font-weight: 500; padding: 6px 16px; border: 1px solid var(--pf-accent-border); border-radius: 100px; transition: all 0.15s; }
-    .pf-nav-cta:hover { background: var(--pf-accent); color: var(--pf-surface); }
+    .pf-nav-cta:hover { background: var(--pf-accent); color: var(--pf-surface); box-shadow: 0 0 16px color-mix(in srgb, var(--pf-accent) 25%, transparent); }
 
     /* Hero */
     .pf-hero { padding: 80px 40px 60px; }
@@ -187,7 +183,8 @@ function getBoldCSS() {
     /* Sections */
     .pf-section { padding: 48px 0; border-top: 1px solid var(--pf-border); }
     .pf-section-inner { max-width: min(1100px, 90vw); margin: 0 auto; padding: 0 40px; }
-    .pf-section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-text-4); font-family: 'JetBrains Mono', monospace; margin-bottom: 28px; }
+    .pf-section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-accent); font-family: 'JetBrains Mono', monospace; margin-bottom: 28px; position: relative; padding-left: 16px; }
+    .pf-section-label::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 50%; background: var(--pf-accent); box-shadow: 0 0 8px var(--pf-accent); }
 
     /* Skills Cloud — Bold: tag-cloud with tilt on hover */
     .pf-cloud { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: baseline; margin-bottom: 20px; }
@@ -207,24 +204,6 @@ function getBoldCSS() {
     .pf-cloud-item:nth-child(even):hover {
       transform: rotate(3deg) scale(1.1);
     }
-    .pf-soft-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-    .pf-soft-chip {
-      padding: 5px 14px;
-      font-size: 11px;
-      border: 1px solid var(--pf-border-2);
-      border-radius: 100px;
-      color: var(--pf-text-3);
-      font-family: 'JetBrains Mono', monospace;
-      display: inline-block;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      cursor: default;
-    }
-    .pf-soft-chip:hover {
-      color: var(--pf-white);
-      border-color: var(--pf-accent);
-      background: color-mix(in srgb, var(--pf-accent) 20%, transparent);
-      transform: rotate(2deg) scale(1.05);
-    }
 
     /* Experience */
     .pf-exp-grid { display: flex; flex-direction: column; }
@@ -243,10 +222,36 @@ function getBoldCSS() {
 
     /* Projects */
     .pf-proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .pf-proj-card { padding: 24px; border: 1px solid var(--pf-border); border-radius: 8px; background: var(--pf-surface-2); transition: border-color 0.15s; }
-    .pf-proj-card:hover { border-color: color-mix(in srgb, var(--pf-border) 60%, var(--pf-text-4)); }
+    .pf-proj-card {
+      position: relative;
+      padding: 24px;
+      border: 1px solid var(--pf-border);
+      border-radius: 8px;
+      background: var(--pf-surface-2);
+      overflow: hidden;
+      transition: all 0.35s ease;
+    }
+    .pf-proj-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      padding: 1px;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--pf-accent) 30%, transparent), transparent 60%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+    }
+    .pf-proj-card:hover {
+      border-color: color-mix(in srgb, var(--pf-accent) 40%, transparent);
+      box-shadow: 0 0 30px -8px color-mix(in srgb, var(--pf-accent) 15%, transparent), inset 0 1px 0 color-mix(in srgb, var(--pf-accent) 10%, transparent);
+    }
+    .pf-proj-card:hover::before { opacity: 1; }
     .pf-proj-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-    .pf-proj-head svg { color: var(--pf-text-5); }
+    .pf-proj-head svg { color: var(--pf-accent); opacity: 0.5; }
     .pf-proj-tags { display: flex; flex-wrap: wrap; gap: 4px; }
     .pf-proj-tech { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--pf-text-3); background: var(--pf-surface-3); padding: 2px 8px; border-radius: 4px; }
     .pf-proj-name { font-size: 15px; font-weight: 600; color: var(--pf-white); letter-spacing: -0.2px; margin-bottom: 6px; }
@@ -259,8 +264,9 @@ function getBoldCSS() {
     .pf-edu-year { font-size: 12px; color: var(--pf-text-4); font-family: 'JetBrains Mono', monospace; }
 
     /* Footer */
-    .pf-footer { padding: 80px 40px; text-align: center; border-top: 1px solid var(--pf-border); background: color-mix(in srgb, var(--pf-surface) 96%, black); }
-    .pf-footer-label { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; margin-bottom: 12px; }
+    .pf-footer { padding: 80px 40px; text-align: center; border-top: 1px solid var(--pf-border); background: color-mix(in srgb, var(--pf-surface) 96%, black); position: relative; }
+    .pf-footer::before { content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 60px; height: 1px; background: var(--pf-accent); box-shadow: 0 0 12px var(--pf-accent); }
+    .pf-footer-label { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--pf-accent); font-family: 'JetBrains Mono', monospace; margin-bottom: 12px; }
     .pf-footer-name { font-size: 40px; font-weight: 800; letter-spacing: -2px; color: var(--pf-white); margin-bottom: 20px; }
     .pf-footer-links { display: flex; justify-content: center; gap: 8px; align-items: center; flex-wrap: wrap; }
     .pf-footer-links a { font-size: 13px; color: var(--pf-text-3); text-decoration: none; transition: color 0.15s; }

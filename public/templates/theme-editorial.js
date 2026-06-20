@@ -177,8 +177,8 @@ function getEditorialCSS() {
     .pf-section-container { max-width: min(900px, 85vw); margin: 0 auto; padding: 0 40px; }
     .pf-col-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
     .pf-col-num { font-size: 28px; font-weight: 300; color: var(--pf-accent); opacity: 0.2; font-family: Georgia, serif; }
-    .pf-col-line { flex: 1; height: 1px; background: var(--pf-border); }
-    .pf-col-title { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+    .pf-col-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--pf-border), color-mix(in srgb, var(--pf-accent) 15%, var(--pf-border)), var(--pf-border)); }
+    .pf-col-title { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-accent); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
 
     /* Skills — Editorial: glass chip boxes */
     .pf-skill-chips { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -221,9 +221,34 @@ function getEditorialCSS() {
 
     /* Projects */
     .pf-projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .pf-proj-block { padding: 24px; border: 1px solid var(--pf-border); border-radius: 8px; background: var(--pf-surface); }
+    .pf-proj-block {
+      padding: 24px;
+      border: 1px solid var(--pf-border);
+      border-radius: 8px;
+      background: var(--pf-surface);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .pf-proj-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--pf-accent), transparent);
+      border-radius: 8px 8px 0 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .pf-proj-block:hover {
+      border-color: color-mix(in srgb, var(--pf-accent) 20%, var(--pf-border));
+      box-shadow: 0 4px 16px -4px color-mix(in srgb, var(--pf-accent) 10%, transparent);
+    }
+    .pf-proj-block:hover::before { opacity: 1; }
     .pf-proj-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
     .pf-proj-tag { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--pf-text-5); background: var(--pf-surface-3); padding: 2px 8px; border-radius: 4px; }
+    .pf-proj-block:hover .pf-proj-tag { color: var(--pf-accent); background: var(--pf-accent-bg-subtle); }
     .pf-proj-name { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; margin-bottom: 6px; }
     .pf-proj-desc { font-size: 13px; color: var(--pf-text-3); line-height: 1.6; }
 
@@ -234,7 +259,8 @@ function getEditorialCSS() {
     .pf-edu-year { font-size: 12px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; }
 
     /* Footer */
-    .pf-footer { padding: 64px 40px; text-align: center; background: var(--pf-surface-3); }
+    .pf-footer { padding: 64px 40px; text-align: center; background: var(--pf-surface-3); border-top: 1px solid var(--pf-border); position: relative; }
+    .pf-footer::before { content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 40px; height: 2px; background: var(--pf-accent); border-radius: 1px; }
     .pf-footer-brand { font-size: 32px; font-weight: 700; letter-spacing: -1.5px; margin-bottom: 16px; }
     .pf-footer-links { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; }
     .pf-footer-links a { font-size: 13px; color: var(--pf-text-3); text-decoration: none; transition: color 0.15s; }
