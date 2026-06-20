@@ -37,6 +37,7 @@ function init() {
   els.themePicker.addEventListener('click', handleThemeChange);
   els.accentColor.addEventListener('input', handleColorChange);
   els.darkModeToggle.addEventListener('click', toggleDarkMode);
+  document.querySelector('.logo-row').addEventListener('click', () => location.reload());
 
   if (sessionStorage.getItem('rf_dark') === 'true') {
     document.body.classList.add('dark');

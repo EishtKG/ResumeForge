@@ -83,7 +83,7 @@ body {
   flex-shrink: 0;
 }
 
-.logo-row { display: flex; align-items: center; gap: 10px; }
+.logo-row { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 .logo-mark {
   display: inline-flex;
   align-items: center;
