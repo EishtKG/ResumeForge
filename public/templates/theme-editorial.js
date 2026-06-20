@@ -1,8 +1,7 @@
-export function renderEditorial(data, accentColor) {
-  const accent = accentColor || '#171717';
+export function renderEditorial(data) {
   return `
-    <div class="pf-page" style="--accent: ${accent};">
-      <style>${getEditorialCSS(accent)}</style>
+    <div class="pf-page">
+      <style>${getEditorialCSS()}</style>
 
       <div class="pf-masthead">
         <div class="pf-masthead-inner">
@@ -22,7 +21,7 @@ export function renderEditorial(data, accentColor) {
       <section class="pf-lead">
         <div class="pf-lead-container">
           <div class="pf-pullquote">
-            <span class="pf-pq-mark">"</span>
+            <span class="pf-pq-mark">&ldquo;</span>
             <p class="pf-pq-text">${esc(data.tailoredSummary)}</p>
           </div>
         </div>
@@ -37,15 +36,15 @@ export function renderEditorial(data, accentColor) {
           </div>
           <div class="pf-skills-columns">
             <div class="pf-skill-col">
-              <h3 class="pf-skill-heading">Technical</h3>
-              <div class="pf-skill-list">
-                ${data.skills.technical.map(s => `<span class="pf-skill-pill">${esc(s)}</span>`).join('')}
+              <h3 class="pf-skill-heading"><span class="pf-skill-num">1.</span> Technical</h3>
+              <div class="pf-skill-prose">
+                ${data.skills.technical.map(s => `<span class="pf-skill-word">${esc(s)}</span>`).join('<span class="pf-skill-sep">&bull;</span>')}
               </div>
             </div>
             <div class="pf-skill-col">
-              <h3 class="pf-skill-heading">Professional</h3>
-              <div class="pf-skill-list">
-                ${data.skills.soft.map(s => `<span class="pf-skill-pill pf-skill-pill-light">${esc(s)}</span>`).join('')}
+              <h3 class="pf-skill-heading"><span class="pf-skill-num">2.</span> Professional</h3>
+              <div class="pf-skill-prose">
+                ${data.skills.soft.map(s => `<span class="pf-skill-word">${esc(s)}</span>`).join('<span class="pf-skill-sep">&bull;</span>')}
               </div>
             </div>
           </div>
@@ -135,86 +134,108 @@ export function renderEditorial(data, accentColor) {
   `;
 }
 
-function getEditorialCSS(accent) {
+function getEditorialCSS() {
   return `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-    .pf-page { font-family: 'Inter', system-ui, sans-serif; color: #171717; background: #faf9f7; line-height: 1.6; }
+
+    .pf-page {
+      --pf-text: #171717;
+      --pf-text-2: #4d4d4d;
+      --pf-text-3: #666666;
+      --pf-text-4: #888888;
+      --pf-text-5: #999999;
+      --pf-surface: #ffffff;
+      --pf-surface-2: #faf9f7;
+      --pf-surface-3: #f5f3ef;
+      --pf-border: #e8e5df;
+      --pf-border-2: #f0ece6;
+      --pf-accent: var(--accent-color, #171717);
+      --pf-accent-hover: color-mix(in srgb, var(--pf-accent) 85%, black);
+      --pf-accent-bg: color-mix(in srgb, var(--pf-accent) 8%, transparent);
+      --pf-accent-bg-subtle: color-mix(in srgb, var(--pf-accent) 4%, transparent);
+      --pf-accent-muted: color-mix(in srgb, var(--pf-accent) 15%, transparent);
+      --pf-accent-ghost: color-mix(in srgb, var(--pf-accent) 8%, transparent);
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--pf-text);
+      background: var(--pf-surface-2);
+      line-height: 1.6;
+    }
 
     /* Masthead */
-    .pf-masthead { padding: 16px 40px; border-bottom: 1px solid #e8e5df; }
+    .pf-masthead { padding: 16px 40px; border-bottom: 1px solid var(--pf-border); }
     .pf-masthead-inner { display: flex; align-items: center; gap: 10px; }
-    .pf-masthead-issue { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #999; font-family: 'JetBrains Mono', monospace; }
-    .pf-masthead-divider { color: #ccc; }
-    .pf-masthead-date { font-size: 11px; color: #999; font-family: 'JetBrains Mono', monospace; }
+    .pf-masthead-issue { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; }
+    .pf-masthead-divider { color: var(--pf-text-4); }
+    .pf-masthead-date { font-size: 11px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; }
 
     /* Hero */
-    .pf-hero { padding: 64px 40px 48px; border-bottom: 1px solid #e8e5df; }
+    .pf-hero { padding: 64px 40px 48px; border-bottom: 1px solid var(--pf-border); }
     .pf-hero-container { max-width: 700px; }
     .pf-hero-name { font-size: 56px; font-weight: 700; letter-spacing: -3px; line-height: 1; margin-bottom: 8px; }
-    .pf-hero-role { font-size: 16px; color: #666; font-weight: 400; }
+    .pf-hero-role { font-size: 16px; color: var(--pf-text-3); font-weight: 400; }
 
     /* Lead / Pullquote */
-    .pf-lead { padding: 40px; background: #f5f3ef; border-bottom: 1px solid #e8e5df; }
+    .pf-lead { padding: 40px; background: var(--pf-surface-3); border-bottom: 1px solid var(--pf-border); }
     .pf-lead-container { max-width: 700px; }
     .pf-pullquote { position: relative; padding-left: 32px; }
-    .pf-pq-mark { position: absolute; left: 0; top: -16px; font-size: 64px; color: ${accent}; opacity: 0.12; line-height: 1; font-family: Georgia, serif; }
-    .pf-pq-text { font-size: 17px; font-style: italic; line-height: 1.8; color: #4d4d4d; }
+    .pf-pq-mark { position: absolute; left: 0; top: -16px; font-size: 64px; color: var(--pf-accent); opacity: 0.12; line-height: 1; font-family: Georgia, serif; }
+    .pf-pq-text { font-size: 17px; font-style: italic; line-height: 1.8; color: var(--pf-text-2); }
 
     /* Sections */
-    .pf-section { padding: 48px 0; border-bottom: 1px solid #e8e5df; }
+    .pf-section { padding: 48px 0; border-bottom: 1px solid var(--pf-border); }
     .pf-section-container { max-width: 700px; margin: 0 auto; padding: 0 40px; }
     .pf-col-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
-    .pf-col-num { font-size: 28px; font-weight: 300; color: ${accent}; opacity: 0.2; font-family: Georgia, serif; }
-    .pf-col-line { flex: 1; height: 1px; background: #e8e5df; }
-    .pf-col-title { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #999; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+    .pf-col-num { font-size: 28px; font-weight: 300; color: var(--pf-accent); opacity: 0.2; font-family: Georgia, serif; }
+    .pf-col-line { flex: 1; height: 1px; background: var(--pf-border); }
+    .pf-col-title { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
 
-    /* Skills */
+    /* Skills — Editorial: numbered subheads in prose blocks */
     .pf-skills-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-    .pf-skill-heading { font-size: 13px; font-weight: 600; margin-bottom: 12px; color: #171717; }
-    .pf-skill-list { display: flex; flex-wrap: wrap; gap: 6px; }
-    .pf-skill-pill { padding: 5px 14px; font-size: 12px; background: ${accent}; color: #fff; border-radius: 100px; font-weight: 500; }
-    .pf-skill-pill-light { background: transparent; border: 1px solid #d4cfc8; color: #4d4d4d; }
+    .pf-skill-heading { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--pf-text); }
+    .pf-skill-num { font-family: Georgia, serif; color: var(--pf-accent); opacity: 0.3; margin-right: 4px; }
+    .pf-skill-prose { font-size: 14px; line-height: 1.8; color: var(--pf-text-2); }
+    .pf-skill-word { display: inline; }
+    .pf-skill-sep { color: var(--pf-text-4); margin: 0 6px; font-size: 10px; }
 
     /* Experience */
-    .pf-exp-block { display: flex; gap: 24px; padding: 28px 0; border-bottom: 1px solid #f0ece6; }
+    .pf-exp-block { display: flex; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--pf-border-2); }
     .pf-exp-block:last-child { border-bottom: none; }
     .pf-exp-meta { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 60px; }
-    .pf-exp-idx { font-size: 24px; font-weight: 300; color: ${accent}; opacity: 0.15; font-family: Georgia, serif; }
-    .pf-exp-dur { font-size: 11px; color: #999; font-family: 'JetBrains Mono', monospace; writing-mode: vertical-lr; text-orientation: mixed; }
+    .pf-exp-idx { font-size: 24px; font-weight: 300; color: var(--pf-accent); opacity: 0.15; font-family: Georgia, serif; }
+    .pf-exp-dur { font-size: 11px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; writing-mode: vertical-lr; text-orientation: mixed; }
     .pf-exp-body { flex: 1; }
     .pf-exp-role { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 2px; }
-    .pf-exp-company { font-size: 14px; color: #666; margin-bottom: 12px; }
+    .pf-exp-company { font-size: 14px; color: var(--pf-text-3); margin-bottom: 12px; }
     .pf-exp-list { list-style: none; padding: 0; }
-    .pf-exp-list li { position: relative; padding-left: 16px; font-size: 14px; color: #4d4d4d; line-height: 1.7; margin-bottom: 6px; }
-    .pf-exp-list li::before { content: ''; position: absolute; left: 0; top: 9px; width: 8px; height: 1px; background: #ccc; }
+    .pf-exp-list li { position: relative; padding-left: 16px; font-size: 14px; color: var(--pf-text-2); line-height: 1.7; margin-bottom: 6px; }
+    .pf-exp-list li::before { content: ''; position: absolute; left: 0; top: 9px; width: 8px; height: 1px; background: var(--pf-text-4); }
 
     /* Projects */
     .pf-projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .pf-proj-block { padding: 24px; border: 1px solid #e8e5df; border-radius: 8px; background: #fff; }
+    .pf-proj-block { padding: 24px; border: 1px solid var(--pf-border); border-radius: 8px; background: var(--pf-surface); }
     .pf-proj-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
-    .pf-proj-tag { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #999; background: #f5f3ef; padding: 2px 8px; border-radius: 4px; }
+    .pf-proj-tag { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--pf-text-5); background: var(--pf-surface-3); padding: 2px 8px; border-radius: 4px; }
     .pf-proj-name { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; margin-bottom: 6px; }
-    .pf-proj-desc { font-size: 13px; color: #666; line-height: 1.6; }
+    .pf-proj-desc { font-size: 13px; color: var(--pf-text-3); line-height: 1.6; }
 
     /* Education */
-    .pf-edu-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #f0ece6; }
+    .pf-edu-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--pf-border-2); }
     .pf-edu-degree { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; }
-    .pf-edu-inst { font-size: 13px; color: #666; }
-    .pf-edu-year { font-size: 12px; color: #999; font-family: 'JetBrains Mono', monospace; }
+    .pf-edu-inst { font-size: 13px; color: var(--pf-text-3); }
+    .pf-edu-year { font-size: 12px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; }
 
     /* Footer */
-    .pf-footer { padding: 64px 40px; text-align: center; background: #f5f3ef; }
-    .pf-footer-container { }
+    .pf-footer { padding: 64px 40px; text-align: center; background: var(--pf-surface-3); }
     .pf-footer-brand { font-size: 32px; font-weight: 700; letter-spacing: -1.5px; margin-bottom: 16px; }
     .pf-footer-links { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .pf-footer-links a { font-size: 13px; color: #666; text-decoration: none; transition: color 0.15s; }
-    .pf-footer-links a:hover { color: ${accent}; }
-    .pf-dot { color: #ccc; }
-    .pf-footer-loc { font-size: 12px; color: #999; margin-top: 12px; font-family: 'JetBrains Mono', monospace; }
+    .pf-footer-links a { font-size: 13px; color: var(--pf-text-3); text-decoration: none; transition: color 0.15s; }
+    .pf-footer-links a:hover { color: var(--pf-accent); }
+    .pf-dot { color: var(--pf-text-4); }
+    .pf-footer-loc { font-size: 12px; color: var(--pf-text-5); margin-top: 12px; font-family: 'JetBrains Mono', monospace; }
 
     [contenteditable] { outline: none; border-radius: 4px; transition: background 0.15s; cursor: text; }
-    [contenteditable]:hover { background: ${accent}04; }
-    [contenteditable]:focus { background: ${accent}08; }
+    [contenteditable]:hover { background: var(--pf-accent-bg-subtle); }
+    [contenteditable]:focus { background: var(--pf-accent-bg); }
   `;
 }
 

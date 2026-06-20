@@ -16,6 +16,7 @@ export function exportToHtml(data, theme, accentColor) {
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --accent-color: ${accentColor || '#171717'}; }
 body { font-family: 'Inter', system-ui, sans-serif; color: #171717; background: #fff; line-height: 1.5; }
 .portfolio-page { max-width: 800px; margin: 0 auto; }
 a { text-decoration: none; }

@@ -9,8 +9,11 @@ const themes = {
 };
 
 export function renderPortfolio(data, theme, accentColor) {
+  const root = document.documentElement;
+  if (accentColor) root.style.setProperty('--accent-color', accentColor);
+
   const renderer = themes[theme] || themes.minimal;
-  return renderer(data, accentColor);
+  return renderer(data);
 }
 
 export function renderCoverLetter(data) {
@@ -44,12 +47,12 @@ export function renderAtsReport(data) {
 
       <div class="keyword-section">
         <h3>Matched Keywords (${(data.matchedKeywords || []).length})</h3>
-        <div class="keyword-list">${matchedTags || '<span style="color:#888;font-size:13px">No matched keywords found</span>'}</div>
+        <div class="keyword-list">${matchedTags || '<span style="color:var(--mute);font-size:13px">No matched keywords found</span>'}</div>
       </div>
 
       <div class="keyword-section">
         <h3>Missing Keywords (${(data.missingKeywords || []).length})</h3>
-        <div class="keyword-list">${missingTags || '<span style="color:#888;font-size:13px">All keywords matched!</span>'}</div>
+        <div class="keyword-list">${missingTags || '<span style="color:var(--mute);font-size:13px">All keywords matched!</span>'}</div>
       </div>
     </div>
   `;

@@ -1,8 +1,7 @@
-export function renderMinimal(data, accentColor) {
-  const accent = accentColor || '#171717';
+export function renderMinimal(data) {
   return `
-    <div class="pf-page" style="--accent: ${accent};">
-      <style>${getMinimalCSS(accent)}</style>
+    <div class="pf-page">
+      <style>${getMinimalCSS()}</style>
 
       <nav class="pf-nav">
         <div class="pf-nav-name">${esc(data.candidateName)}</div>
@@ -38,17 +37,17 @@ export function renderMinimal(data, accentColor) {
             <h2 class="pf-section-title">Skills & Expertise</h2>
           </div>
           <div class="pf-skills-grid">
-            <div class="pf-skill-card">
-              <h3 class="pf-skill-label">Technical Skills</h3>
-              <div class="pf-skill-tags">
-                ${data.skills.technical.map(s => `<span class="pf-skill-tag">${esc(s)}</span>`).join('')}
-              </div>
+            <div class="pf-skill-col">
+              <h3 class="pf-skill-heading">Technical Skills</h3>
+              <ul class="pf-skill-list">
+                ${data.skills.technical.map(s => `<li>${esc(s)}</li>`).join('')}
+              </ul>
             </div>
-            <div class="pf-skill-card">
-              <h3 class="pf-skill-label">Professional Skills</h3>
-              <div class="pf-skill-tags">
-                ${data.skills.soft.map(s => `<span class="pf-skill-tag pf-skill-tag-soft">${esc(s)}</span>`).join('')}
-              </div>
+            <div class="pf-skill-col">
+              <h3 class="pf-skill-heading">Professional Skills</h3>
+              <ul class="pf-skill-list">
+                ${data.skills.soft.map(s => `<li>${esc(s)}</li>`).join('')}
+              </ul>
             </div>
           </div>
         </div>
@@ -149,98 +148,118 @@ export function renderMinimal(data, accentColor) {
   `;
 }
 
-function getMinimalCSS(accent) {
+function getMinimalCSS() {
   return `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-    .pf-page { font-family: 'Inter', system-ui, sans-serif; color: #171717; background: #fff; line-height: 1.6; }
+
+    .pf-page {
+      --pf-text: #171717;
+      --pf-text-2: #4d4d4d;
+      --pf-text-3: #666666;
+      --pf-text-4: #888888;
+      --pf-text-5: #999999;
+      --pf-surface: #ffffff;
+      --pf-surface-2: #fafafa;
+      --pf-surface-3: #f5f5f5;
+      --pf-border: #ebebeb;
+      --pf-border-2: #f0f0f0;
+      --pf-accent: var(--accent-color, #171717);
+      --pf-accent-hover: color-mix(in srgb, var(--pf-accent) 85%, black);
+      --pf-accent-bg: color-mix(in srgb, var(--pf-accent) 8%, transparent);
+      --pf-accent-bg-subtle: color-mix(in srgb, var(--pf-accent) 4%, transparent);
+      --pf-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--pf-text);
+      background: var(--pf-surface);
+      line-height: 1.6;
+    }
     .pf-container { max-width: 800px; margin: 0 auto; padding: 0 32px; }
 
     /* Nav */
-    .pf-nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); z-index: 100; }
+    .pf-nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; border-bottom: 1px solid var(--pf-border); position: sticky; top: 0; background: color-mix(in srgb, var(--pf-surface) 95%, transparent); backdrop-filter: blur(12px); z-index: 100; }
     .pf-nav-name { font-size: 14px; font-weight: 600; letter-spacing: -0.3px; }
     .pf-nav-links { display: flex; gap: 24px; align-items: center; }
-    .pf-nav-links a { font-size: 13px; color: #666; text-decoration: none; transition: color 0.15s; }
-    .pf-nav-links a:hover { color: #171717; }
-    .pf-nav-cta { background: ${accent}; color: #fff !important; padding: 6px 16px; border-radius: 100px; font-weight: 500; }
-    .pf-nav-cta:hover { opacity: 0.9; }
+    .pf-nav-links a { font-size: 13px; color: var(--pf-text-3); text-decoration: none; transition: color 0.15s; }
+    .pf-nav-links a:hover { color: var(--pf-text); }
+    .pf-nav-cta { background: var(--pf-accent); color: var(--pf-surface) !important; padding: 6px 16px; border-radius: 100px; font-weight: 500; }
+    .pf-nav-cta:hover { background: var(--pf-accent-hover); }
 
     /* Hero */
     .pf-hero { padding: 80px 32px 60px; display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; max-width: 800px; margin: 0 auto; }
     .pf-hero-container { flex: 1; }
-    .pf-hero-badge { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: ${accent}; background: ${accent}0d; padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; font-family: 'JetBrains Mono', monospace; }
+    .pf-hero-badge { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--pf-accent); background: var(--pf-accent-bg); padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; font-family: 'JetBrains Mono', monospace; }
     .pf-hero-title { margin-bottom: 8px; }
-    .pf-hero-line { display: block; font-size: 16px; font-weight: 400; color: #666; }
+    .pf-hero-line { display: block; font-size: 16px; font-weight: 400; color: var(--pf-text-3); }
     .pf-hero-name { display: block; font-size: 48px; font-weight: 700; letter-spacing: -2.5px; line-height: 1.05; }
-    .pf-hero-role { font-size: 18px; color: #4d4d4d; margin-bottom: 16px; font-weight: 400; }
-    .pf-hero-summary { font-size: 15px; color: #666; line-height: 1.7; max-width: 500px; margin-bottom: 28px; }
+    .pf-hero-role { font-size: 18px; color: var(--pf-text-2); margin-bottom: 16px; font-weight: 400; }
+    .pf-hero-summary { font-size: 15px; color: var(--pf-text-3); line-height: 1.7; max-width: 500px; margin-bottom: 28px; }
     .pf-hero-actions { display: flex; gap: 12px; }
     .pf-btn { display: inline-flex; align-items: center; padding: 10px 24px; border-radius: 100px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.15s; }
-    .pf-btn-primary { background: ${accent}; color: #fff; }
-    .pf-btn-primary:hover { opacity: 0.9; }
-    .pf-btn-ghost { border: 1px solid #e0e0e0; color: #171717; background: transparent; }
-    .pf-btn-ghost:hover { border-color: #171717; }
+    .pf-btn-primary { background: var(--pf-accent); color: var(--pf-surface); }
+    .pf-btn-primary:hover { background: var(--pf-accent-hover); }
+    .pf-btn-ghost { border: 1px solid var(--pf-border); color: var(--pf-text); background: transparent; }
+    .pf-btn-ghost:hover { border-color: var(--pf-text); }
 
     /* Sections */
-    .pf-section { padding: 60px 0; border-top: 1px solid #f0f0f0; }
+    .pf-section { padding: 60px 0; border-top: 1px solid var(--pf-border); }
     .pf-section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
-    .pf-section-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #ccc; }
+    .pf-section-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--pf-text-4); }
     .pf-section-title { font-size: 20px; font-weight: 600; letter-spacing: -0.5px; }
 
-    /* Skills */
-    .pf-skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .pf-skill-card { padding: 24px; border: 1px solid #f0f0f0; border-radius: 12px; }
-    .pf-skill-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 12px; }
-    .pf-skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .pf-skill-tag { padding: 5px 12px; font-size: 12px; background: ${accent}0a; color: ${accent}; border-radius: 100px; font-weight: 500; border: 1px solid ${accent}15; }
-    .pf-skill-tag-soft { background: #f7f7f7; color: #4d4d4d; border-color: #eee; }
+    /* Skills — Minimal: clean list with hairline dividers, no pills */
+    .pf-skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .pf-skill-heading { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--pf-text-4); margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
+    .pf-skill-list { list-style: none; padding: 0; }
+    .pf-skill-list li { padding: 10px 0; font-size: 14px; color: var(--pf-text-2); border-bottom: 1px solid var(--pf-border-2); }
+    .pf-skill-list li:last-child { border-bottom: none; }
 
     /* Experience */
     .pf-exp-list { display: flex; flex-direction: column; gap: 0; }
-    .pf-exp-card { display: flex; gap: 20px; padding: 28px 0; border-bottom: 1px solid #f5f5f5; }
+    .pf-exp-card { display: flex; gap: 20px; padding: 28px 0; border-bottom: 1px solid var(--pf-border-2); }
     .pf-exp-card:last-child { border-bottom: none; }
     .pf-exp-left { display: flex; flex-direction: column; align-items: center; padding-top: 4px; }
-    .pf-exp-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ccc; }
-    .pf-exp-line { width: 1px; flex: 1; background: #f0f0f0; margin-top: 8px; }
+    .pf-exp-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--pf-text-4); }
+    .pf-exp-line { width: 1px; flex: 1; background: var(--pf-border); margin-top: 8px; }
     .pf-exp-content { flex: 1; }
     .pf-exp-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
     .pf-exp-role { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
-    .pf-exp-company { font-size: 14px; color: #666; }
-    .pf-exp-duration { font-size: 12px; color: #999; font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+    .pf-exp-company { font-size: 14px; color: var(--pf-text-3); }
+    .pf-exp-duration { font-size: 12px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
     .pf-exp-bullets { list-style: none; padding: 0; }
-    .pf-exp-bullets li { position: relative; padding-left: 16px; font-size: 14px; color: #4d4d4d; line-height: 1.7; margin-bottom: 6px; }
-    .pf-exp-bullets li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 1px; background: ${accent}; }
+    .pf-exp-bullets li { position: relative; padding-left: 16px; font-size: 14px; color: var(--pf-text-2); line-height: 1.7; margin-bottom: 6px; }
+    .pf-exp-bullets li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 1px; background: var(--pf-accent); }
 
     /* Projects */
     .pf-projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .pf-project-card { padding: 24px; border: 1px solid #f0f0f0; border-radius: 12px; transition: border-color 0.15s, box-shadow 0.15s; }
-    .pf-project-card:hover { border-color: #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .pf-project-card { padding: 24px; border: 1px solid var(--pf-border); border-radius: 12px; transition: border-color 0.15s, box-shadow 0.15s; }
+    .pf-project-card:hover { border-color: color-mix(in srgb, var(--pf-border) 60%, var(--pf-text-4)); box-shadow: var(--pf-shadow-sm); }
     .pf-project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-    .pf-project-header svg { color: #ccc; flex-shrink: 0; }
+    .pf-project-header svg { color: var(--pf-text-4); flex-shrink: 0; }
     .pf-project-tech { display: flex; flex-wrap: wrap; gap: 4px; }
-    .pf-tech { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #888; background: #f5f5f5; padding: 2px 8px; border-radius: 4px; }
+    .pf-tech { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--pf-text-4); background: var(--pf-surface-3); padding: 2px 8px; border-radius: 4px; }
     .pf-project-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.2px; }
-    .pf-project-desc { font-size: 13px; color: #666; line-height: 1.6; }
+    .pf-project-desc { font-size: 13px; color: var(--pf-text-3); line-height: 1.6; }
 
     /* Education */
     .pf-edu-list { display: flex; flex-direction: column; gap: 12px; }
-    .pf-edu-card { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #f5f5f5; }
+    .pf-edu-card { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--pf-border-2); }
     .pf-edu-degree { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; }
-    .pf-edu-inst { font-size: 13px; color: #666; }
-    .pf-edu-year { font-size: 12px; color: #999; font-family: 'JetBrains Mono', monospace; }
+    .pf-edu-inst { font-size: 13px; color: var(--pf-text-3); }
+    .pf-edu-year { font-size: 12px; color: var(--pf-text-5); font-family: 'JetBrains Mono', monospace; }
 
     /* Footer */
-    .pf-footer { padding: 80px 0; text-align: center; border-top: 1px solid #f0f0f0; }
-    .pf-footer-cta { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #999; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; }
+    .pf-footer { padding: 80px 0; text-align: center; border-top: 1px solid var(--pf-border); }
+    .pf-footer-cta { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-text-5); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; }
     .pf-footer-name { font-size: 36px; font-weight: 700; letter-spacing: -1.5px; margin-bottom: 20px; }
     .pf-footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 12px; }
-    .pf-footer-link { font-size: 14px; color: #666; text-decoration: none; transition: color 0.15s; }
-    .pf-footer-link:hover { color: ${accent}; }
-    .pf-footer-location { font-size: 13px; color: #999; }
+    .pf-footer-link { font-size: 14px; color: var(--pf-text-3); text-decoration: none; transition: color 0.15s; }
+    .pf-footer-link:hover { color: var(--pf-accent); }
+    .pf-footer-location { font-size: 13px; color: var(--pf-text-5); }
 
     /* Editable */
     [contenteditable] { outline: none; border-radius: 4px; transition: background 0.15s; cursor: text; }
-    [contenteditable]:hover { background: ${accent}04; }
-    [contenteditable]:focus { background: ${accent}08; }
+    [contenteditable]:hover { background: var(--pf-accent-bg-subtle); }
+    [contenteditable]:focus { background: var(--pf-accent-bg); }
   `;
 }
 
