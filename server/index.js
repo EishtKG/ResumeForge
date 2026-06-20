@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import { tailorResume, setApiKey } from './gemini.js';
+import { initProvider, tailorResume } from './providers/index.js';
 
 const app = express();
 const PORT = 3001;
@@ -9,15 +9,7 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 
-const apiKey = process.env.GROQ_API_KEY || '';
-
-if (!apiKey) {
-  console.error('No GROQ_API_KEY found in .env — server will fail on API calls.');
-  console.error('Add GROQ_API_KEY=your_key to .env and restart.');
-} else {
-  setApiKey(apiKey);
-  console.log('Groq API key loaded from .env');
-}
+const provider = initProvider();
 
 app.post('/api/tailor', async (req, res) => {
   const { resume, jobDescription } = req.body;
@@ -26,8 +18,8 @@ app.post('/api/tailor', async (req, res) => {
     return res.status(400).json({ error: 'Resume and job description are required' });
   }
 
-  if (!apiKey) {
-    return res.status(500).json({ error: 'No API key configured. Add GROQ_API_KEY to .env and restart the server.' });
+  if (!provider) {
+    return res.status(500).json({ error: 'No AI provider configured. Check AI_PROVIDER and API key in .env, then restart.' });
   }
 
   try {
