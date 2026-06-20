@@ -172,20 +172,20 @@ function getEditorialCSS() {
 
     /* Hero */
     .pf-hero { padding: 64px 40px 48px; border-bottom: 1px solid var(--pf-border); }
-    .pf-hero-container { max-width: 700px; }
+    .pf-hero-container { max-width: min(900px, 85vw); }
     .pf-hero-name { font-size: 56px; font-weight: 700; letter-spacing: -3px; line-height: 1; margin-bottom: 8px; }
     .pf-hero-role { font-size: 16px; color: var(--pf-text-3); font-weight: 400; }
 
     /* Lead / Pullquote */
     .pf-lead { padding: 40px; background: var(--pf-surface-3); border-bottom: 1px solid var(--pf-border); }
-    .pf-lead-container { max-width: 700px; }
+    .pf-lead-container { max-width: min(900px, 85vw); }
     .pf-pullquote { position: relative; padding-left: 32px; }
     .pf-pq-mark { position: absolute; left: 0; top: -16px; font-size: 64px; color: var(--pf-accent); opacity: 0.12; line-height: 1; font-family: Georgia, serif; }
     .pf-pq-text { font-size: 17px; font-style: italic; line-height: 1.8; color: var(--pf-text-2); }
 
     /* Sections */
     .pf-section { padding: 48px 0; border-bottom: 1px solid var(--pf-border); }
-    .pf-section-container { max-width: 700px; margin: 0 auto; padding: 0 40px; }
+    .pf-section-container { max-width: min(900px, 85vw); margin: 0 auto; padding: 0 40px; }
     .pf-col-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
     .pf-col-num { font-size: 28px; font-weight: 300; color: var(--pf-accent); opacity: 0.2; font-family: Georgia, serif; }
     .pf-col-line { flex: 1; height: 1px; background: var(--pf-border); }

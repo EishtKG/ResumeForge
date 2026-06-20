@@ -169,7 +169,7 @@ function getBoldCSS() {
 
     /* Hero */
     .pf-hero { padding: 80px 40px 60px; }
-    .pf-hero-container { max-width: 800px; }
+    .pf-hero-container { max-width: min(1100px, 90vw); }
     .pf-hero-top { margin-bottom: 24px; }
     .pf-hero-status { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--pf-accent); font-family: 'JetBrains Mono', monospace; }
     .pf-status-dot { width: 6px; height: 6px; background: var(--pf-accent); border-radius: 50%; animation: pulse 2s infinite; }
@@ -186,7 +186,7 @@ function getBoldCSS() {
 
     /* Sections */
     .pf-section { padding: 48px 0; border-top: 1px solid var(--pf-border); }
-    .pf-section-inner { max-width: 800px; margin: 0 auto; padding: 0 40px; }
+    .pf-section-inner { max-width: min(1100px, 90vw); margin: 0 auto; padding: 0 40px; }
     .pf-section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--pf-text-4); font-family: 'JetBrains Mono', monospace; margin-bottom: 28px; }
 
     /* Skills Cloud — Bold: tag-cloud with scaled font-size, colored text only */

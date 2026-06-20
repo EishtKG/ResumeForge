@@ -175,7 +175,7 @@ function getMinimalCSS() {
       background: var(--pf-surface);
       line-height: 1.6;
     }
-    .pf-container { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+    .pf-container { max-width: min(1100px, 90vw); margin: 0 auto; padding: 0 32px; }
 
     /* Nav */
     .pf-nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; border-bottom: 1px solid var(--pf-border); position: sticky; top: 0; background: color-mix(in srgb, var(--pf-surface) 95%, transparent); backdrop-filter: blur(12px); z-index: 100; }
@@ -187,14 +187,14 @@ function getMinimalCSS() {
     .pf-nav-cta:hover { background: var(--pf-accent-hover); }
 
     /* Hero */
-    .pf-hero { padding: 80px 32px 60px; display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; max-width: 800px; margin: 0 auto; }
+    .pf-hero { padding: 80px 32px 60px; display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; max-width: min(1100px, 90vw); margin: 0 auto; }
     .pf-hero-container { flex: 1; }
     .pf-hero-badge { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--pf-accent); background: var(--pf-accent-bg); padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; font-family: 'JetBrains Mono', monospace; }
     .pf-hero-title { margin-bottom: 8px; }
     .pf-hero-line { display: block; font-size: 16px; font-weight: 400; color: var(--pf-text-3); }
     .pf-hero-name { display: block; font-size: 48px; font-weight: 700; letter-spacing: -2.5px; line-height: 1.05; }
     .pf-hero-role { font-size: 18px; color: var(--pf-text-2); margin-bottom: 16px; font-weight: 400; }
-    .pf-hero-summary { font-size: 15px; color: var(--pf-text-3); line-height: 1.7; max-width: 500px; margin-bottom: 28px; }
+    .pf-hero-summary { font-size: 15px; color: var(--pf-text-3); line-height: 1.7; max-width: min(600px, 80vw); margin-bottom: 28px; }
     .pf-hero-actions { display: flex; gap: 12px; }
     .pf-btn { display: inline-flex; align-items: center; padding: 10px 24px; border-radius: 100px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.15s; }
     .pf-btn-primary { background: var(--pf-accent); color: var(--pf-surface); }
