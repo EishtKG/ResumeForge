@@ -1,4 +1,4 @@
-# ResumeForge(https://resume-forge-fodjkp35w-eisht.vercel.app/)
+# [ResumeForge](https://resume-forge-fodjkp35w-eisht.vercel.app/)
 
 AI-powered resume tailoring, ATS scoring, cover letter writing, and live portfolio generation — built from nothing but raw, unformatted text.
 
