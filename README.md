@@ -10,7 +10,9 @@ Paste your resume and a job description as-is — no templates, no rigid fields,
 
 ## Demo:-
 
-https://github.com/user-attachments/assets/14bf4e10-e996-422d-8261-fe9c5f23c8a9
+
+https://github.com/user-attachments/assets/bfd3abde-8f5f-4d2d-bc2a-70e8bbc51ded
+
 
 *(Demo video)*
 
