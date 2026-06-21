@@ -184,4 +184,4 @@ ResumeForge is deployed on **Vercel**.
   - The API key matching whichever provider is selected (e.g. `GEMINI_API_KEY`, `CLAUDE_API_KEY`, etc.)
 - Any change to environment variables requires a **redeploy** to take effect — Vercel does not retroactively apply env var changes to already-built deployments.
 
-**Live demo:** [resume-forge-ivory.vercel.app](https://resume-forge-ivory.vercel.app)
+🔗 **Live Demo:** [resume-forge-fodjkp35w-eisht.vercel.app](https://resume-forge-fodjkp35w-eisht.vercel.app/)
