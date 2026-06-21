@@ -11,6 +11,7 @@ Paste your resume and a job description as-is — no templates, no rigid fields,
 ## Demo:-
 
 https://github.com/user-attachments/assets/14bf4e10-e996-422d-8261-fe9c5f23c8a9
+
 *(Demo video)*
 
 🔗 **Live Demo:** [resume-forge-fodjkp35w-eisht.vercel.app](https://resume-forge-fodjkp35w-eisht.vercel.app/)
