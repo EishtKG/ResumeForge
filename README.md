@@ -10,7 +10,12 @@ Paste your resume and a job description as-is — no templates, no rigid fields,
 
 ## Demo
 
-<!-- Add a screen recording / GIF here showing the split-screen flow: pasting resume + JD → live preview generating → switching themes → exporting -->
+https://github.com/user-attachments/assets/14bf4e10-e996-422d-8261-fe9c5f23c8a9
+
+
+
+
+
 
 ---
 
