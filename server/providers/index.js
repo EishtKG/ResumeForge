@@ -42,10 +42,6 @@ export function initProvider() {
   return provider;
 }
 
-export function getProvider() {
-  return activeProvider;
-}
-
 export async function tailorResume(resume, jobDescription) {
   if (!activeProvider || !apiKey) {
     throw new Error('No AI provider configured. Check AI_PROVIDER and API key in .env.');
