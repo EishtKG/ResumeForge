@@ -10,7 +10,7 @@ export const nvidia = {
     smart: 'meta/llama-3.1-70b-instruct',
   },
 
-  async call(apiKey, resume, jobDescription, model = 'fast') {
+  async call(apiKey, resume, jobDescription, model = 'smart') {
     const response = await fetch(URL, {
       method: 'POST',
       headers: {
@@ -24,7 +24,7 @@ export const nvidia = {
           { role: 'user', content: buildUserMessage(resume, jobDescription) },
         ],
         temperature: 0.3,
-        max_tokens: 4096,
+        max_tokens: 8192,
       }),
     });
 
@@ -41,3 +41,14 @@ export const nvidia = {
     return validateResponse(JSON.parse(sanitizeJson(cleaned)));
   },
 };
+
+import { jsonrepair } from 'jsonrepair';
+// ...
+const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+let parsed;
+try {
+  parsed = JSON.parse(sanitizeJson(cleaned));
+} catch (e) {
+  parsed = JSON.parse(jsonrepair(sanitizeJson(cleaned))); // auto-fixes common LLM JSON mistakes
+}
+return validateResponse(parsed);
