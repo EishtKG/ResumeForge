@@ -15,6 +15,13 @@ if (process.env.VERCEL) {
   ALLOWED_ORIGINS.push(`https://${process.env.VERCEL_URL}`);
 }
 
+// Add extra allowed origins from env var (comma-separated), e.g. your custom domain
+if (process.env.ALLOWED_ORIGINS) {
+  ALLOWED_ORIGINS.push(
+    ...process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim())
+  );
+}
+
 app.use(cors({
   origin(origin, callback) {
     if (!origin || ALLOWED_ORIGINS.includes(origin)) {
@@ -31,15 +38,12 @@ const provider = initProvider();
 
 app.post('/api/tailor', async (req, res) => {
   const { resume, jobDescription } = req.body;
-
   if (!resume || !jobDescription) {
     return res.status(400).json({ error: 'Resume and job description are required' });
   }
-
   if (!provider) {
     return res.status(500).json({ error: 'No AI provider configured. Check AI_PROVIDER and API key in .env, then restart.' });
   }
-
   try {
     const result = await tailorResume(resume, jobDescription);
     res.json(result);
