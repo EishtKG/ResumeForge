@@ -9,7 +9,7 @@ The provider system is modular. To add any AI API:
 Create `server/providers/yourprovider.js`:
 
 ```javascript
-import { SYSTEM_PROMPT, buildUserMessage, validateResponse } from './prompt.js';
+import { SYSTEM_PROMPT, buildUserMessage, validateResponse, sanitizeJson } from './prompt.js';
 
 export const yourprovider = {
   name: 'Your Provider',           // Display name
@@ -48,7 +48,7 @@ export const yourprovider = {
 
     // Some providers return markdown-wrapped JSON
     const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    return validateResponse(JSON.parse(cleaned));
+    return validateResponse(JSON.parse(sanitizeJson(cleaned)));
   },
 };
 ```
@@ -85,11 +85,12 @@ npm run dev
 | Claude | `x-api-key` header | `content[0].text` | No (prompt-based) |
 | OpenAI | `Authorization: Bearer` | `choices[0].message.content` | `response_format: { type: 'json_object' }` |
 | Grok | `Authorization: Bearer` | `choices[0].message.content` | No (prompt-based) |
-| Nvidia | `Authorization: Bearer` | `choices[0].message.content` | No (prompt-based) |
+| Nvidia | `Authorization: Bearer` | `choices[0].message.content` | No (prompt-based, uses `sanitizeJson`) |
 
 ## Notes
 
 - `SYSTEM_PROMPT` and `buildUserMessage()` are shared — don't duplicate them
 - `validateResponse()` enforces the schema — always use it before returning
+- `sanitizeJson()` escapes control characters inside JSON strings to prevent parse failures — use it before `JSON.parse()` on raw model output
 - For providers without native JSON mode, the prompt instructs JSON-only output and we strip markdown fences as fallback
 - The `call()` method receives the provider instance as `this`, so `this.models` works

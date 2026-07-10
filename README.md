@@ -1,4 +1,4 @@
-# [ResumeForge: Generate Portfolio Website that to of 3 diff themes,ATS Approved Resume & Cover letter with respect to the Job Description](https://resume-forge-fodjkp35w-eisht.vercel.app/)
+# [ResumeForge: Generate Portfolio Website that to of 3 diff themes,ATS Approved Resume & Cover letter with respect to the Job Description](https://resume-forge-new.vercel.app/)
 
 AI-powered resume tailoring, ATS scoring, cover letter writing, and live portfolio generation — built from nothing but raw, unformatted text.
 
@@ -16,7 +16,7 @@ https://github.com/user-attachments/assets/bfd3abde-8f5f-4d2d-bc2a-70e8bbc51ded
 
 *(Demo video)*
 
-🔗 **Live Demo:** [resume-forge-fodjkp35w-eisht.vercel.app](https://resume-forge-fodjkp35w-eisht.vercel.app/)
+🔗 **Live Demo:** [resume-forge-new.vercel.app](https://resume-forge-new.vercel.app/)
 
 
 
@@ -182,6 +182,7 @@ ResumeForge is deployed on **Vercel**.
 - Required environment variables (set under **Project → Settings → Environment Variables** on Vercel):
   - `AI_PROVIDER`
   - The API key matching whichever provider is selected (e.g. `GEMINI_API_KEY`, `CLAUDE_API_KEY`, etc.)
+  - `ALLOWED_ORIGINS` (optional) — comma-separated list of additional allowed CORS origins (e.g. custom domains)
 - Any change to environment variables requires a **redeploy** to take effect — Vercel does not retroactively apply env var changes to already-built deployments.
 
-🔗 **Live Demo:** [resume-forge-fodjkp35w-eisht.vercel.app](https://resume-forge-fodjkp35w-eisht.vercel.app/)
+🔗 **Live Demo:** [resume-forge-new.vercel.app](https://resume-forge-new.vercel.app/)
