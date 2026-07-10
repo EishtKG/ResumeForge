@@ -41,14 +41,3 @@ export const nvidia = {
     return validateResponse(JSON.parse(sanitizeJson(cleaned)));
   },
 };
-
-import { jsonrepair } from 'jsonrepair';
-// ...
-const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-let parsed;
-try {
-  parsed = JSON.parse(sanitizeJson(cleaned));
-} catch (e) {
-  parsed = JSON.parse(jsonrepair(sanitizeJson(cleaned))); // auto-fixes common LLM JSON mistakes
-}
-return validateResponse(parsed);
